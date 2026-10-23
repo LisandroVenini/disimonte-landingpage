@@ -1,0 +1,35 @@
+---
+import Boton from "../ui/Boton.astro";
+import { cierre, marca } from "../../data/site";
+import { WHATSAPP_VISIBLE } from "../../lib/whatsapp";
+
+const anio = new Date().getFullYear();
+---
+
+<footer id="cierre" class="fondo-verde border-t border-crema/15 pt-24 pb-10 lg:pt-32" aria-labelledby="cierre-titulo">
+  <div class="contenedor">
+    <h2 id="cierre-titulo" class="font-display text-[clamp(3.25rem,11vw,9.5rem)] leading-[0.95]">
+      {cierre.titulo}
+    </h2>
+    <div class="mt-10 grid gap-10 md:grid-cols-[minmax(0,1fr)_auto] md:items-end">
+      <div class="flex flex-col gap-3">
+        <p class="bajada">{cierre.texto}</p>
+        <p class="italic opacity-80">{cierre.firma}</p>
+      </div>
+      <div class="flex flex-wrap gap-3">
+        <Boton mensaje={cierre.mensaje} seccion="cierre">{cierre.botonWhatsApp}</Boton>
+        <Boton href={marca.instagram.url} variante="contorno" target="_blank" rel="noopener">
+          {cierre.botonInstagram}
+          <span class="sr-only"> (abre Instagram en otra pestaña)</span>
+        </Boton>
+      </div>
+    </div>
+
+    <div class="mt-20 flex flex-col gap-2 border-t border-crema/15 pt-6 text-base opacity-75 sm:flex-row sm:justify-between">
+      <p>{marca.nombre} · {marca.ubicacion}</p>
+      <p>
+        WhatsApp {WHATSAPP_VISIBLE} · Instagram {marca.instagram.usuario} · {anio}
+      </p>
+    </div>
+  </div>
+</footer>

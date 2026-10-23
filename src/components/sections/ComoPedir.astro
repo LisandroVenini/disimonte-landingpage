@@ -1,0 +1,47 @@
+---
+import Boton from "../ui/Boton.astro";
+import TituloSeccion from "../ui/TituloSeccion.astro";
+import { comoPedir } from "../../data/site";
+---
+
+<section id="como-pedir" class="fondo-crema seccion" aria-labelledby="como-pedir-titulo">
+  <div class="contenedor">
+    <TituloSeccion id="como-pedir-titulo" titulo={comoPedir.titulo} class="max-w-[18ch]" />
+
+    <ol class="mt-12 grid gap-4 md:grid-cols-3 lg:mt-16 lg:gap-6">
+      {
+        comoPedir.pasos.map((paso, i) => (
+          <li class="flex flex-col gap-4 rounded-[1.5rem] border-[1.5px] border-verde/15 p-6 lg:p-8">
+            <span class="font-display text-[3.5rem] leading-none" aria-hidden="true">
+              {i + 1}
+            </span>
+            <p class="text-[1.375rem] leading-snug">
+              <span class="sr-only">Paso {i + 1}: </span>
+              {paso}
+            </p>
+          </li>
+        ))
+      }
+    </ol>
+
+    <div class="mt-10 grid gap-8 md:grid-cols-[minmax(0,1fr)_auto] md:items-end lg:mt-14">
+      <dl class="grid max-w-[46rem] gap-5">
+        <div>
+          <dt class="font-semibold">Pastas</dt>
+          <dd>{comoPedir.nota}</dd>
+        </div>
+        <div>
+          <dt class="font-semibold">Retiro o envío</dt>
+          <dd>{comoPedir.entrega}</dd>
+        </div>
+        <div>
+          <dt class="font-semibold">Formas de pago</dt>
+          <dd>{comoPedir.pago}</dd>
+        </div>
+      </dl>
+      <div>
+        <Boton mensaje={comoPedir.mensaje} seccion="como-pedir" variante="verde">{comoPedir.boton}</Boton>
+      </div>
+    </div>
+  </div>
+</section>

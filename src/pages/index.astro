@@ -1,13 +1,30 @@
 ---
 import Base from "../layouts/Base.astro";
-import Boton from "../components/ui/Boton.astro";
-import { mensajeGeneral } from "../data/site";
+import Nav from "../components/Nav.astro";
+import BarraWhatsApp from "../components/ui/BarraWhatsApp.astro";
+import Inicio from "../components/sections/Inicio.astro";
+import Historia from "../components/sections/Historia.astro";
+import Sorrentinos from "../components/sections/Sorrentinos.astro";
+import ParaLaMano from "../components/sections/ParaLaMano.astro";
+import ParaPicar from "../components/sections/ParaPicar.astro";
+import ArmaTuPedido from "../components/sections/ArmaTuPedido.astro";
+import ComoPedir from "../components/sections/ComoPedir.astro";
+import Preguntas from "../components/sections/Preguntas.astro";
+import Cierre from "../components/sections/Cierre.astro";
 ---
 
 <Base>
-  <main id="contenido" class="contenedor seccion flex flex-col items-start gap-6">
-    <h1 class="titulo-inicio">Di Simonte</h1>
-    <p class="bajada">Prueba de la base.</p>
-    <Boton mensaje={mensajeGeneral} seccion="prueba">Pedir por WhatsApp</Boton>
+  <Nav />
+  <main id="contenido">
+    <Inicio />
+    <Historia />
+    <Sorrentinos />
+    <ParaLaMano />
+    <ParaPicar />
+    <ArmaTuPedido />
+    <ComoPedir />
+    <Preguntas />
   </main>
+  <Cierre />
+  <BarraWhatsApp />
 </Base>

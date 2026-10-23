@@ -1,0 +1,44 @@
+---
+/** Solo en el celular: WhatsApp siempre a un toque. nav.ts la muestra al salir del inicio. */
+import Boton from "./Boton.astro";
+import { mensajeGeneral } from "../../data/site";
+---
+
+<div class="barra md:hidden" data-barra inert>
+  <Boton mensaje={mensajeGeneral} seccion="barra" class="w-full">Pedir por WhatsApp</Boton>
+</div>
+
+<style>
+  .barra {
+    position: fixed;
+    z-index: 40;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 0.75rem 1rem calc(0.75rem + env(safe-area-inset-bottom));
+    background: linear-gradient(to top, rgb(29 50 43 / 0.95) 55%, transparent);
+    --foco: var(--color-crema);
+    transform: translateY(110%);
+    transition: transform 300ms var(--ease-cajon);
+  }
+
+  .barra.es-visible {
+    transform: none;
+  }
+
+  .barra :global(.boton) {
+    box-shadow: 0 10px 30px -10px rgb(0 0 0 / 0.5);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .barra {
+      transform: none;
+      opacity: 0;
+      transition: opacity 200ms ease;
+    }
+
+    .barra.es-visible {
+      opacity: 1;
+    }
+  }
+</style>

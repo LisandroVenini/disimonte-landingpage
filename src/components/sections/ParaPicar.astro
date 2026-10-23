@@ -1,0 +1,27 @@
+---
+import { Picture } from "astro:assets";
+import Boton from "../ui/Boton.astro";
+import TituloSeccion from "../ui/TituloSeccion.astro";
+import { paraPicar } from "../../data/productos";
+---
+
+<section id="para-picar" class="fondo-crema seccion" aria-labelledby="para-picar-titulo">
+  <div class="contenedor grid items-center gap-12 md:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] lg:gap-20">
+    <div class="flex flex-col items-start gap-8 md:order-1">
+      <TituloSeccion id="para-picar-titulo" titulo={paraPicar.titulo} bajada={paraPicar.bajada} />
+      <Boton mensaje={paraPicar.mensaje} seccion="para-picar" variante="verde">{paraPicar.boton}</Boton>
+    </div>
+    <div class="overflow-hidden rounded-[1.75rem] md:order-2" data-focaccia>
+      <Picture
+        src={paraPicar.foto}
+        alt={paraPicar.alt}
+        formats={["avif", "webp"]}
+        fallbackFormat="jpg"
+        widths={[480, 720, 1024]}
+        sizes="(min-width: 768px) 52vw, 100vw"
+        class="aspect-square h-full w-full object-cover"
+        data-focaccia-foto
+      />
+    </div>
+  </div>
+</section>

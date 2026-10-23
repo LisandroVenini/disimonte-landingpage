@@ -1,0 +1,317 @@
+---
+/**
+ * Sección firma. Sin JavaScript (o con "reducir movimiento") los pasos se
+ * ven uno debajo del otro, cada uno en su bloque de color. sorrentinos.ts
+ * agrega `.es-fija` y los apila en una escena fija ligada al scroll.
+ */
+import { Picture } from "astro:assets";
+import Boton from "../ui/Boton.astro";
+import { lasagna, pastas, sorrentinos } from "../../data/productos";
+import { marca } from "../../data/site";
+
+const colorTexto = { crema: "var(--color-crema)", tinta: "var(--color-tinta)" };
+---
+
+<section id="pastas" class="sorrentinos" aria-labelledby="pastas-titulo">
+  <div class="escena" id="sorrentinos" data-escena>
+    <div class="paso paso--intro" data-paso style="--fondo: var(--color-verde); --texto: var(--color-crema)">
+      <div class="paso__capa" data-capa></div>
+      <div class="paso__contenido contenedor">
+        <div class="paso__texto flex flex-col items-start gap-6" data-texto>
+          <h2 id="pastas-titulo" class="titulo-seccion max-w-[14ch]">{pastas.titulo}</h2>
+          <p class="bajada opacity-90">{pastas.bajada}</p>
+          <p class="texto opacity-80">{pastas.nota}</p>
+          <ul class="flex flex-wrap gap-2.5" aria-label="Los cinco sabores">
+            {
+              sorrentinos.map((s) => (
+                <li class="inline-flex items-center gap-2 rounded-full border border-crema/25 py-1 pr-3.5 pl-1.5 text-base">
+                  <span class="size-5 rounded-full" style={`background: var(${s.color})`} aria-hidden="true" />
+                  {s.nombre}
+                </li>
+              ))
+            }
+          </ul>
+          <p class="paso__pista text-base opacity-70" aria-hidden="true">Bajá para recorrer los sabores</p>
+        </div>
+      </div>
+    </div>
+
+    {
+      sorrentinos.map((s, i) => (
+        <article
+          class="paso"
+          data-paso
+          aria-labelledby={`sabor-${s.id}`}
+          style={`--fondo: var(${s.color}); --texto: ${colorTexto[s.texto]}`}
+        >
+          <div class="paso__capa" data-capa />
+          <div class="paso__contenido contenedor">
+            <div class="paso__foto" data-foto>
+              <Picture
+                src={s.foto}
+                alt={s.alt}
+                formats={["avif", "webp"]}
+                fallbackFormat="jpg"
+                widths={[360, 560, 800]}
+                sizes="(min-width: 768px) 40vw, 72vw"
+                class="h-full w-full object-cover"
+              />
+            </div>
+            <div class="paso__texto flex flex-col items-start" data-texto>
+              <p class="text-base opacity-80">
+                {i + 1} de {sorrentinos.length} · {s.masa}
+              </p>
+              <h3 id={`sabor-${s.id}`} class="paso__nombre mt-2">
+                {s.nombre}
+              </h3>
+              <p class="texto mt-4 max-w-[30em]">{s.descripcion}</p>
+              <Boton
+                mensaje={pastas.mensaje(s.nombre)}
+                seccion={`sorrentinos-${s.id}`}
+                variante="sabor"
+                detalle={s.nombre}
+                class="mt-7"
+              >
+                {pastas.boton}
+              </Boton>
+            </div>
+          </div>
+        </article>
+      ))
+    }
+
+    <nav class="puntos" aria-label="Sabores de sorrentinos" data-puntos hidden>
+      {
+        sorrentinos.map((s, i) => (
+          <button
+            type="button"
+            class="punto"
+            data-punto={i + 1}
+            style={`--punto: var(${s.color})`}
+            aria-label={`Ver ${s.nombre}`}
+          />
+        ))
+      }
+    </nav>
+  </div>
+
+  <div class="fondo-verde seccion">
+    <div class="contenedor grid items-center gap-10 md:grid-cols-2 lg:gap-20">
+      <div class="overflow-hidden rounded-[1.75rem]" data-revelar>
+        <Picture
+          src={lasagna.foto}
+          alt={lasagna.alt}
+          formats={["avif", "webp"]}
+          fallbackFormat="jpg"
+          widths={[480, 720, 1024]}
+          sizes="(min-width: 768px) 45vw, 100vw"
+          class="aspect-square h-full w-full object-cover"
+        />
+      </div>
+      <div class="flex flex-col items-start gap-5">
+        <p class="text-lg opacity-80">Y para cerrar el finde</p>
+        <h3 class="titulo-seccion">{lasagna.nombre}</h3>
+        <p class="texto">{lasagna.descripcion}</p>
+        <div class="mt-3 flex flex-wrap gap-3">
+          <Boton mensaje={lasagna.mensaje} seccion="lasagna">{lasagna.boton}</Boton>
+          <Boton href={marca.instagram.url} variante="contorno" target="_blank" rel="noopener">
+            Ver próximas tandas
+          </Boton>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* ---------- Versión en bloques (sin JS o reducir movimiento) ---------- */
+
+  .paso {
+    position: relative;
+    background: var(--fondo);
+    color: var(--texto);
+    --foco: var(--texto);
+    padding-block: 5rem;
+  }
+
+  .paso__capa {
+    display: none;
+  }
+
+  .paso__contenido {
+    display: grid;
+    align-items: center;
+    gap: 2.5rem;
+  }
+
+  .paso__foto {
+    width: min(78vw, 26rem);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 0 30px 60px -20px rgb(0 0 0 / 0.45);
+  }
+
+  .paso__nombre {
+    font-size: clamp(2.25rem, 5vw, 4rem);
+    line-height: 1.05;
+    max-width: 12ch;
+  }
+
+  .paso__pista {
+    display: none;
+  }
+
+  @media (width >= 48rem) {
+    .paso__contenido {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 4rem;
+    }
+
+    .paso__foto {
+      order: 2;
+      justify-self: center;
+      width: min(40vw, 34rem);
+    }
+  }
+
+  /* ---------- Escena fija (la activa sorrentinos.ts) ---------- */
+
+  .escena.es-fija {
+    display: grid;
+    height: 100svh;
+    overflow: hidden;
+    background: var(--color-verde);
+  }
+
+  .es-fija .paso {
+    grid-area: 1 / 1;
+    background: none;
+    padding: 0;
+    pointer-events: none;
+  }
+
+  .es-fija .paso.es-activo {
+    pointer-events: auto;
+  }
+
+  .es-fija .paso__capa {
+    display: block;
+    position: absolute;
+    inset: 0;
+    background: var(--fondo);
+  }
+
+  .es-fija .paso__contenido {
+    position: relative;
+    height: 100%;
+    align-content: center;
+    justify-items: center;
+    gap: 1.75rem;
+    padding-top: 5.5rem;
+    padding-bottom: 7.5rem;
+  }
+
+  .es-fija .paso__foto {
+    width: min(70vw, 36svh);
+  }
+
+  .es-fija .paso__texto {
+    width: 100%;
+  }
+
+  .es-fija .paso__nombre {
+    font-size: clamp(2rem, 9vw, 4.25rem);
+  }
+
+  .es-fija .paso__pista {
+    display: block;
+  }
+
+  .es-fija .paso--intro .paso__contenido {
+    justify-items: start;
+  }
+
+  @media (width >= 48rem) {
+    .es-fija .paso__contenido {
+      padding-block: 6rem;
+      gap: 4rem;
+    }
+
+    .es-fija .paso__foto {
+      width: min(40vw, 64svh, 36rem);
+    }
+  }
+
+  /* Los sabores también dejan ver el texto sin que la foto lo empuje en celus bajos */
+  @media (width < 48rem) and (height < 700px) {
+    .es-fija .paso__foto {
+      width: min(60vw, 30svh);
+    }
+
+    .es-fija .paso__contenido {
+      gap: 1.25rem;
+    }
+
+    .es-fija .paso__nombre {
+      font-size: 2rem;
+    }
+  }
+
+  /* ---------- Puntos ---------- */
+
+  .puntos {
+    display: none;
+  }
+
+  .es-fija .puntos {
+    position: absolute;
+    z-index: 2;
+    left: 50%;
+    bottom: calc(5.5rem + env(safe-area-inset-bottom));
+    translate: -50% 0;
+    display: flex;
+    gap: 0.25rem;
+    padding: 0.25rem;
+    border-radius: 999px;
+    background: rgb(29 50 43 / 0.88);
+  }
+
+  @media (width >= 48rem) {
+    .es-fija .puntos {
+      left: auto;
+      right: 2rem;
+      bottom: auto;
+      top: 50%;
+      translate: 0 -50%;
+      flex-direction: column;
+    }
+  }
+
+  .punto {
+    display: grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 50%;
+    cursor: pointer;
+    --foco: var(--color-crema);
+  }
+
+  .punto::before {
+    content: "";
+    width: 0.875rem;
+    height: 0.875rem;
+    border-radius: 50%;
+    background: var(--punto);
+    box-shadow: 0 0 0 0 var(--color-crema);
+    transition:
+      transform 200ms var(--ease-out-fuerte),
+      box-shadow 200ms var(--ease-out-fuerte);
+  }
+
+  .punto[aria-current="true"]::before {
+    transform: scale(1.3);
+    box-shadow: 0 0 0 2px var(--color-crema);
+  }
+</style>

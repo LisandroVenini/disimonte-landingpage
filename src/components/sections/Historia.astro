@@ -1,0 +1,41 @@
+---
+import { Picture } from "astro:assets";
+import Boton from "../ui/Boton.astro";
+import TituloSeccion from "../ui/TituloSeccion.astro";
+import { historia } from "../../data/site";
+import fotoHistoria from "../../assets/fotos/historia.png";
+---
+
+<section id="historia" class="fondo-crema seccion" aria-labelledby="historia-titulo">
+  <div class="contenedor grid items-center gap-12 md:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] lg:gap-20">
+    <div class="overflow-hidden rounded-[1.75rem]" data-revelar>
+      <Picture
+        src={fotoHistoria}
+        alt="Una abuela, su hija y su nieto amasando pastas en la mesa de la cocina"
+        formats={["avif", "webp"]}
+        fallbackFormat="jpg"
+        widths={[480, 720, 928]}
+        sizes="(min-width: 768px) 42vw, 100vw"
+        class="aspect-[4/5] h-full w-full object-cover"
+      />
+    </div>
+
+    <div class="flex flex-col items-start gap-8">
+      <TituloSeccion id="historia-titulo" titulo={historia.titulo} />
+      <p class="texto">{historia.texto}</p>
+
+      <dl class="w-full max-w-[34rem] divide-y divide-verde/15 border-y border-verde/15">
+        {
+          historia.personas.map((persona) => (
+            <div class="grid gap-1 py-4 sm:grid-cols-[8rem_1fr] sm:gap-6">
+              <dt class="font-display text-xl">{persona.nombre}</dt>
+              <dd class="opacity-90">{persona.linea}</dd>
+            </div>
+          ))
+        }
+      </dl>
+
+      <Boton href="#pastas" variante="verde">{historia.boton}</Boton>
+    </div>
+  </div>
+</section>

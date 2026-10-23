@@ -1,0 +1,104 @@
+---
+/**
+ * Tarjetas con propuestas. Cada una abre WhatsApp con su mensaje: el botón
+ * se estira sobre toda la tarjeta, así el link tiene un nombre corto.
+ */
+import { Picture } from "astro:assets";
+import { waLink } from "../../lib/whatsapp";
+import TituloSeccion from "../ui/TituloSeccion.astro";
+import IconoWhatsApp from "../ui/IconoWhatsApp.astro";
+import { armaTuPedido, propuestas } from "../../data/propuestas";
+
+const giros = ["-1deg", "0.8deg", "-0.6deg"];
+---
+
+<section id="arma-tu-pedido" class="fondo-verde seccion" aria-labelledby="arma-tu-pedido-titulo">
+  <div class="contenedor">
+    <TituloSeccion id="arma-tu-pedido-titulo" titulo={armaTuPedido.titulo} bajada={armaTuPedido.bajada} />
+
+    <ul class="mt-12 grid gap-6 md:grid-cols-3 lg:mt-16 lg:gap-8">
+      {
+        propuestas.map((p, i) => (
+          <li class="tarjeta" style={`--giro: ${giros[i % giros.length]}`}>
+            <div class="overflow-hidden rounded-[1.25rem]">
+              <Picture
+                src={p.foto}
+                alt={p.alt}
+                formats={["avif", "webp"]}
+                fallbackFormat="jpg"
+                widths={[400, 640, 928]}
+                sizes="(min-width: 768px) 30vw, 100vw"
+                class="aspect-[4/5] h-full w-full object-cover"
+              />
+            </div>
+            <div class="flex grow flex-col items-start gap-3 px-2 pt-6 pb-2">
+              <h3 class="titulo-tarjeta">{p.nombre}</h3>
+              <p class="text-lg italic opacity-85">{p.paraQue}</p>
+              <p class="leading-snug">
+                <span class="font-semibold">Incluye:</span> {p.incluye}.
+              </p>
+              <a
+                href={waLink(p.mensaje)}
+                target="_blank"
+                rel="noopener"
+                class="tarjeta__link boton boton--crema mt-auto"
+                data-wa={`arma-tu-pedido-${p.id}`}
+              >
+                <IconoWhatsApp />
+                {armaTuPedido.boton}
+                <span class="sr-only">: {p.nombre} (abre WhatsApp en otra pestaña)</span>
+              </a>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .tarjeta {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 0.75rem 0.75rem 1.25rem;
+    border-radius: 1.75rem;
+    background: var(--color-verde-claro);
+    transition: transform 160ms var(--ease-out-fuerte);
+  }
+
+  .tarjeta__link {
+    margin-top: auto;
+  }
+
+  /* Toda la tarjeta es clickeable */
+  .tarjeta__link::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 1.75rem;
+  }
+
+  .tarjeta:has(.tarjeta__link:active) {
+    transform: scale(0.98);
+  }
+
+  /* El botón ya tiene su propio achique: en la tarjeta se usa el de la tarjeta */
+  .tarjeta__link:active {
+    transform: none;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .tarjeta:hover {
+      transform: rotate(var(--giro)) translateY(-4px);
+    }
+
+    .tarjeta:hover:has(.tarjeta__link:active) {
+      transform: rotate(var(--giro)) translateY(-4px) scale(0.98);
+    }
+
+    .tarjeta:hover .tarjeta__link {
+      background: #fff1eb;
+    }
+  }
+</style>
