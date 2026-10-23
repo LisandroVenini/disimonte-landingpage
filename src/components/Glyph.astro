@@ -1,0 +1,25 @@
+---
+import { ICON_INSTAGRAM_PATH, ICON_WHATSAPP_PATH } from "./icons.ts";
+
+interface Props {
+  icon: "whatsapp" | "instagram";
+  size?: number;
+  label?: string;
+}
+
+const { icon, size = 18, label } = Astro.props;
+const d = icon === "whatsapp" ? ICON_WHATSAPP_PATH : ICON_INSTAGRAM_PATH;
+---
+
+<svg
+  width={size}
+  height={size}
+  viewBox="0 0 24 24"
+  fill="currentColor"
+  focusable="false"
+  role={label ? "img" : undefined}
+  aria-label={label}
+  aria-hidden={label ? "false" : "true"}
+>
+  <path d={d} />
+</svg>

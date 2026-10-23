@@ -1,0 +1,50 @@
+---
+interface Props {
+  label: string;
+  note?: string; // e.g. "próxima foto real"
+  variant?: "framed" | "fullbleed" | "duotone";
+  tone?: "calabaza" | "espinaca" | "jyq" | "bondiola" | "none";
+  aspect?: string; // CSS aspect-ratio, e.g. "4 / 5"
+  decorative?: boolean; // true for full-bleed scene backgrounds
+  className?: string; // positioning helpers from the caller
+}
+
+const {
+  label,
+  note = "próxima foto real",
+  variant = "framed",
+  tone = "none",
+  aspect = "4 / 5",
+  decorative = false,
+  className = "",
+} = Astro.props;
+
+const readable = `Imagen: ${label}${note ? `, ${note}` : ""}`;
+
+const toneHex =
+  tone === "calabaza"
+    ? "#fbb02d"
+    : tone === "espinaca"
+      ? "#5da365"
+      : tone === "jyq"
+        ? "#efb8ae"
+        : tone === "bondiola"
+          ? "#7a7672"
+          : null;
+
+const styleVars: Record<string, string> = { "aspect-ratio": aspect };
+if (variant === "framed" && toneHex) {
+  // flavor wash at ~16% — never a full-bleed flavor field (bible §5)
+  styleVars.background = `radial-gradient(120% 120% at 28% 22%, ${toneHex}2e 0%, transparent 60%), var(--surface-raised)`;
+}
+---
+
+<div
+  class:list={["media-ph", `media-ph--${variant}`, className]}
+  style={styleVars}
+  {...(decorative
+    ? { "aria-hidden": "true" }
+    : { role: "img", "aria-label": readable })}
+>
+  <span class="media-ph__label" aria-hidden="true">{readable}</span>
+</div>

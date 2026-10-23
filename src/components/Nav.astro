@@ -1,0 +1,96 @@
+---
+import { INSTAGRAM_URL, waHref } from "../config";
+
+interface Props {
+  orderMessage: string;
+}
+
+const { orderMessage } = Astro.props;
+
+const NAV_LINKS = [
+  { href: "#historia", label: "La historia" },
+  { href: "#semana", label: "La semana" },
+  { href: "#carta", label: "La carta" },
+  { href: "#como-pedir", label: "Cómo pedir" },
+];
+---
+
+<div class="nav-island" data-nav>
+  <div class="nav-inner">
+    <a
+      href="#inicio"
+      class="font-display text-wordmark font-semibold text-cream"
+      aria-label="Di Simonte — inicio"
+    >
+      Di Simonte
+    </a>
+
+    <nav aria-label="Principal" class="hidden items-center lg:flex">
+      {NAV_LINKS.map((link) => (
+        <a class="nav-link" href={link.href} data-nav-link>
+          {link.label}
+        </a>
+      ))}
+    </nav>
+
+    <div class="flex items-center gap-2">
+      <a
+        class="btn btn-primary btn-compact on-cream hidden lg:inline-flex"
+        href={waHref(orderMessage)}
+        target="_blank"
+        rel="noopener"
+      >
+        Pedir por WhatsApp
+      </a>
+      <button
+        class="menu-toggle lg:hidden"
+        data-menu-toggle
+        aria-expanded="false"
+        aria-controls="menu-di-simonte"
+        aria-label="Abrir menú"
+      >
+        <span class="menu-toggle__line"></span>
+        <span class="menu-toggle__line"></span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div
+  id="menu-di-simonte"
+  class="menu-overlay"
+  data-menu-overlay
+  role="dialog"
+  aria-modal="true"
+  aria-label="Menú de navegación"
+>
+  <nav aria-label="Menú móvil">
+    <ul class="list-none p-0 text-center">
+      {NAV_LINKS.map((link, i) => (
+        <li style={`--i:${i}`}>
+          <a class="menu-overlay__link" href={link.href}>
+            {link.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+  <a
+    class="menu-overlay__link"
+    href={waHref(orderMessage)}
+    target="_blank"
+    rel="noopener"
+    style="--i:4"
+  >
+    Pedir por WhatsApp
+  </a>
+  <a
+    class="menu-overlay__link"
+    href={INSTAGRAM_URL}
+    target="_blank"
+    rel="noopener"
+    style="--i:5"
+  >
+    Instagram
+  </a>
+</div>

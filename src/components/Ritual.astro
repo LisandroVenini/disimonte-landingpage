@@ -1,0 +1,88 @@
+---
+import MediaPlaceholder from "./MediaPlaceholder.astro";
+import InlineLink from "./InlineLink.astro";
+import SectionHeading from "./SectionHeading.astro";
+
+const BEATS = [
+  { mark: "A", name: "Abuela", line: "Las manos, la tradición y el domingo." },
+  {
+    mark: "M",
+    name: "Milagros",
+    line: "Le dio color a la tradición: masas teñidas con ingredientes naturales.",
+  },
+  {
+    mark: "L",
+    name: "Lisandro",
+    line: "Le dio vida a las harinas: técnica artesanal en cada repulgue.",
+  },
+];
+---
+
+<section id="historia" class="py-section" data-ritual>
+  <div class="container-shell">
+    <div class="grid gap-14 lg:grid-cols-12 lg:items-start">
+      <div class="lg:col-span-4">
+        <SectionHeading
+          eyebrow="La historia"
+          title="Todo empezó en la mesa de mi abuela."
+          lede="Sus manos llenas de harina cada domingo no solo hacían pastas; construían los recuerdos que hoy son el motor de este proyecto."
+          reveal="cine"
+          cineDelay={0}
+        />
+
+        <ol class="ritual-beats mt-10" style="padding-left: 5px">
+          <span
+            class="ritual-beats__spine"
+            data-cine-spine
+            aria-hidden="true"
+          ></span>
+          {BEATS.map((beat, i) => (
+            <li class="ritual-beat" data-cine-reveal data-cine-delay={i * 0.15 + 0.15}>
+              <span class="ritual-beat__mark" aria-hidden="true">
+                {beat.mark}
+              </span>
+              <span class="pt-0.5 font-body text-body text-ink-soft">
+                <span class="ritual-beat__name text-cream">{beat.name}</span>{" "}
+                {beat.line}
+              </span>
+            </li>
+          ))}
+        </ol>
+
+        <!-- Second-read moment: emerald dough macro (art-direction §0) -->
+        <div
+          class="mx-auto mt-10 max-w-[260px]"
+          data-cine-reveal
+          data-cine-delay={0.65}
+        >
+          <MediaPlaceholder
+            variant="framed"
+            tone="espinaca"
+            aspect="1 / 1"
+            label="Masa de espinaca, color natural"
+          />
+        </div>
+
+        <div class="mt-8" data-cine-reveal data-cine-delay={0.8}>
+          <InlineLink href="#carta" label="Conocé la carta" />
+        </div>
+      </div>
+
+      <div class="lg:col-span-8" data-cine-reveal data-cine-delay={0.15}>
+        <div class="double-bezel h-full">
+          <div class="double-bezel__core h-full">
+            <div class="cine-parallax h-full" data-cine-parallax>
+              <MediaPlaceholder
+                variant="duotone"
+                aspect="auto"
+                label="Cocina de la abuela"
+                note="duotono, próxima foto real"
+                className="h-full min-h-[60vh] w-full"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,934 @@
+@import "tailwindcss";
+
+/* ============================================================
+   Di Simonte — Design System (bible: web/DESIGN.md)
+   Tokens via @theme (Tailwind v4) + raw CSS variables.
+   Component recipes live in @layer components so Tailwind
+   utilities (hidden, spacing, etc.) always win the cascade.
+   ============================================================ */
+
+@theme {
+  /* ---- Institutional palette (bible §2.1, exact, never modified) ---- */
+  --color-green: #1d322b; /* --green-disimonte */
+  --color-cream: #fedcd1; /* --cream */
+  --color-ink: #292929; /* --ink */
+
+  /* ---- Flavor palette (bible §2.2) — dots/chips ONLY, never UI fills ---- */
+  --color-flavor-calabaza: #fbb02d;
+  --color-flavor-espinaca: #5da365;
+  --color-flavor-jyq: #efb8ae;
+  --color-flavor-bondiola: #7a7672;
+
+  /* ---- Derived tones (bible §2.3, recipes from the brand hexes only) ---- */
+  --color-surface-raised: color-mix(in srgb, #1d322b 95%, #fedcd1 5%);
+  --color-surface-tint: color-mix(in srgb, #1d322b 97%, #fedcd1 3%);
+  --color-ink-soft: rgb(254 220 209 / 0.72);
+  --color-ink-muted: rgb(254 220 209 / 0.48);
+  --color-hairline: rgb(254 220 209 / 0.14);
+
+  /* ---- Type ramp (bible §3) ---- */
+  --font-display: "Playfair Display", "Georgia", serif;
+  --font-body: "Cormorant Garamond", "Georgia", serif;
+
+  --text-h1: clamp(3.25rem, 9vw, 7.5rem);
+  --text-h1--line-height: 1.02;
+  --text-h1--letter-spacing: -0.02em;
+
+  --text-h2: clamp(2.25rem, 5.5vw, 4.25rem);
+  --text-h2--line-height: 1.06;
+  --text-h2--letter-spacing: -0.015em;
+
+  --text-h3: clamp(1.375rem, 2.4vw, 1.875rem);
+  --text-h3--line-height: 1.2;
+  --text-h3--letter-spacing: -0.01em;
+
+  --text-wordmark: clamp(1.25rem, 2vw, 1.625rem);
+  --text-wordmark--line-height: 1;
+  --text-wordmark--letter-spacing: -0.01em;
+
+  --text-eyebrow: 0.75rem;
+  --text-eyebrow--line-height: 1.4;
+  --text-eyebrow--letter-spacing: 0.22em;
+
+  --text-lede: clamp(1.25rem, 2.2vw, 1.625rem);
+  --text-lede--line-height: 1.5;
+  --text-lede--letter-spacing: -0.005em;
+
+  --text-body: clamp(1.0625rem, 1.4vw, 1.25rem);
+  --text-body--line-height: 1.65;
+
+  --text-caption: 0.875rem;
+  --text-caption--line-height: 1.5;
+
+  --text-cta: 0.875rem;
+  --text-cta--line-height: 1;
+  --text-cta--letter-spacing: 0.16em;
+
+  --text-price: 1rem;
+  --text-price--line-height: 1;
+
+  /* ---- Radii (bible §4.2, mathematically nested) ---- */
+  --radius-pill: 999px;
+  --radius-shell: 2rem;
+  --radius-core: 1.25rem;
+  --radius-card: 1.5rem;
+  --radius-media: 1.25rem;
+
+  /* ---- Spacing rhythm (bible §4.1) ---- */
+  --spacing-section: clamp(5rem, 12vw, 9rem);
+  --spacing-hero: clamp(7rem, 16vw, 12rem);
+}
+
+/* ============================================================
+   Raw design tokens (mirror of bible §2.3, §4.3, §4.4, §4.5)
+   ============================================================ */
+:root {
+  --green-disimonte: #1d322b;
+  --cream: #fedcd1;
+  --ink: #292929;
+  --flavor-calabaza: #fbb02d;
+  --flavor-espinaca: #5da365;
+  --flavor-jyq: #efb8ae;
+  --flavor-bondiola: #7a7672;
+
+  --surface-raised: color-mix(in srgb, #1d322b 95%, #fedcd1 5%);
+  --surface-tint: color-mix(in srgb, #1d322b 97%, #fedcd1 3%);
+  --ink-soft: rgba(254, 220, 209, 0.72);
+  --ink-muted: rgba(254, 220, 209, 0.48);
+  --hairline: 1px solid rgba(254, 220, 209, 0.14);
+  --hairline-subtle: 1px solid rgba(254, 220, 209, 0.08);
+  --hairline-strong: 1px solid rgba(254, 220, 209, 0.26);
+  --shadow-ink: 0 24px 64px -24px rgba(7, 14, 11, 0.65);
+  --shadow-lift: 0 12px 32px -12px rgba(7, 14, 11, 0.5);
+  --highlight-inner: inset 0 1px 0 rgba(254, 220, 209, 0.07);
+
+  --ease-cinematic: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-sober: cubic-bezier(0.32, 0.72, 0, 1);
+  --ease-press: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --dur-micro: 150ms;
+  --dur-fast: 300ms;
+  --dur-sober: 500ms;
+  --dur-cinematic: 1100ms;
+  --dur-marquee: 22s;
+
+  /* grain texture (flour in the air) — single shared data-uri */
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+}
+
+/* ============================================================
+   Base layer
+   ============================================================ */
+@layer base {
+  html {
+    scroll-padding-top: 6.5rem;
+    background: var(--green-disimonte);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  body {
+    background: var(--green-disimonte);
+    color: var(--cream);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background: var(--cream);
+    color: var(--green-disimonte);
+  }
+
+  /* Focus rings: cream on green, green on cream surfaces (bible §10) */
+  :focus-visible {
+    outline: 2px solid var(--cream);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  .on-cream:focus-visible {
+    outline-color: var(--green-disimonte);
+  }
+
+  /* Single fixed grain overlay — above content, below modals (bible §5, §11) */
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 70;
+    pointer-events: none;
+    opacity: 0.06;
+    mix-blend-mode: overlay;
+    background-image: var(--grain);
+  }
+
+  /* Skip link (bible §10) */
+  .skip-link {
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    z-index: 100;
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius-pill);
+    background: var(--cream);
+    color: var(--ink);
+    font-weight: 700;
+    font-size: 0.875rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    transform: translateY(-300%);
+    transition: transform var(--dur-fast) var(--ease-sober);
+  }
+
+  .skip-link:focus {
+    transform: none;
+  }
+}
+
+/* ============================================================
+   Components layer (recipes — utilities always win the cascade)
+   ============================================================ */
+@layer components {
+  /* ---- Layout primitives ---- */
+  .container-shell {
+    width: 100%;
+    max-width: 80rem;
+    margin-inline: auto;
+    padding-inline: clamp(1rem, 4vw, 2.5rem);
+  }
+
+  .letter-column {
+    max-width: 45rem;
+    margin-inline: auto;
+  }
+
+  /* Vertical rhythm lines — "recipe card" backbone (art-direction §7) */
+  .rhythm-lines {
+    background-image: linear-gradient(
+      to right,
+      rgb(254 220 209 / 0.07) 1px,
+      transparent 1px
+    );
+    background-size: clamp(3.5rem, 9vw, 6.5rem) 100%;
+  }
+
+  /* ---- Eyebrow pill (bible §6.6) ---- */
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.375rem 0.875rem;
+    border: 1px solid rgba(254, 220, 209, 0.14);
+    border-radius: var(--radius-pill);
+    color: var(--ink-soft);
+    font-family: var(--font-body);
+    font-size: var(--text-eyebrow);
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    line-height: 1.4;
+    text-transform: uppercase;
+  }
+
+  /* ---- Double-bezel (bible §5, §6.3) — nested shell/core ---- */
+  .double-bezel {
+    border-radius: var(--radius-shell);
+    padding: 6px;
+    background: var(--surface-tint);
+    border: 1px solid rgba(254, 220, 209, 0.08);
+    box-shadow: var(--shadow-ink);
+  }
+
+  .double-bezel__core {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius-core);
+    background: var(--surface-raised);
+    box-shadow: var(--highlight-inner);
+  }
+
+  /* ---- Ritual timeline (bible §6.7) ---- */
+  /* parallax drift room for the duotone panel */
+  .cine-parallax {
+    margin-block: -7%;
+  }
+
+  .ritual-beats {
+    position: relative;
+  }
+
+  .ritual-beats__spine {
+    position: absolute;
+    top: 0.5rem;
+    bottom: 0.5rem;
+    left: 22px;
+    width: 1px;
+    background: rgba(254, 220, 209, 0.14);
+    transform-origin: top center;
+  }
+
+  .ritual-beat {
+    position: relative;
+    display: grid;
+    grid-template-columns: 44px 1fr;
+    gap: 1.25rem;
+    align-items: start;
+    min-height: 64px;
+  }
+
+  .ritual-beat__mark {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 500;
+    line-height: 1;
+    color: var(--cream);
+    text-align: center;
+  }
+
+  .ritual-beat__name {
+    display: block;
+    font-weight: 600;
+  }
+
+  /* ---- Buttons (bible §6.1, §6.2) — button-in-button pattern ---- */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    min-height: 48px;
+    padding: 0.75rem 1.75rem;
+    border-radius: var(--radius-pill);
+    border: 1px solid transparent;
+    font-family: var(--font-body);
+    font-size: var(--text-cta);
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    line-height: 1;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition:
+      background-color var(--dur-fast) var(--ease-sober),
+      border-color var(--dur-fast) var(--ease-sober),
+      box-shadow var(--dur-fast) var(--ease-sober),
+      transform var(--dur-fast) var(--ease-sober);
+  }
+
+  .btn:hover {
+    transform: translateY(-1px);
+  }
+
+  .btn:active {
+    transform: translateY(0) scale(0.98);
+    transition-duration: var(--dur-micro);
+    transition-timing-function: var(--ease-press);
+  }
+
+  .btn-primary {
+    background: var(--cream);
+    color: var(--ink);
+  }
+
+  .btn-primary:hover {
+    background: rgba(254, 220, 209, 0.92);
+    box-shadow: var(--shadow-lift);
+  }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--cream);
+    border-color: rgba(254, 220, 209, 0.14);
+  }
+
+  .btn-ghost:hover {
+    border-color: rgba(254, 220, 209, 0.26);
+    background: var(--surface-tint);
+  }
+
+  .btn__icon {
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: var(--green-disimonte);
+    color: var(--cream);
+    flex-shrink: 0;
+    transition: transform var(--dur-fast) var(--ease-sober);
+  }
+
+  .btn-primary:hover .btn__icon {
+    transform: translate(-2px, 1px) scale(1.05);
+  }
+
+  .btn-ghost .btn__icon {
+    border: 1px solid rgba(254, 220, 209, 0.14);
+  }
+
+  .btn-compact {
+    min-height: 40px;
+    padding: 0.375rem 0.875rem 0.375rem 1rem;
+    gap: 0.5rem;
+  }
+
+  .btn-compact .btn__icon {
+    width: 28px;
+    height: 28px;
+  }
+
+  .btn-banner {
+    min-height: 56px;
+    padding-inline: 2.5rem;
+  }
+
+  /* ---- Inline link with nested arrow circle (bible §6.2) ---- */
+  .link-inline {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.625rem;
+    min-height: 44px;
+    color: var(--cream);
+    font-size: var(--text-body);
+    font-weight: 500;
+    text-decoration: underline;
+    text-decoration-color: rgba(254, 220, 209, 0.26);
+    text-underline-offset: 6px;
+    text-decoration-thickness: 1px;
+  }
+
+  .link-inline__arrow {
+    display: grid;
+    place-items: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 1px solid rgba(254, 220, 209, 0.26);
+    font-size: 0.875rem;
+    line-height: 1;
+    transform: translateX(0);
+    transition: transform var(--dur-fast) var(--ease-sober);
+  }
+
+  .link-inline:hover .link-inline__arrow {
+    transform: translateX(4px);
+  }
+
+  /* ---- Flavor chip (bible §6.3) ---- */
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.25rem 0.875rem 0.25rem 0.625rem;
+    border-radius: var(--radius-pill);
+    background: rgba(29, 50, 43, 0.82);
+    border: 1px solid rgba(254, 220, 209, 0.14);
+    color: var(--cream);
+  }
+
+  .chip--bare {
+    padding: 0.375rem 0.875rem;
+  }
+
+  .chip__dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    transition: transform var(--dur-fast) var(--ease-sober);
+  }
+
+  .chip:hover .chip__dot {
+    transform: scale(1.1);
+  }
+
+  .chip__label {
+    font-family: var(--font-body);
+    font-size: var(--text-eyebrow);
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    line-height: 1.4;
+    text-transform: uppercase;
+  }
+
+  /* ---- Limited-edition badge (bible §6.8) ---- */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.375rem 0.875rem;
+    border-radius: var(--radius-pill);
+    background: var(--surface-raised);
+    border: 1px solid rgba(254, 220, 209, 0.14);
+  }
+
+  .badge__dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--flavor-calabaza);
+  }
+
+  .badge__label {
+    font-family: var(--font-body);
+    font-size: var(--text-eyebrow);
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    line-height: 1.4;
+    text-transform: uppercase;
+    color: var(--cream);
+  }
+
+  .badge--pulse {
+    animation: badge-pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes badge-pulse {
+    0%,
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.72;
+      transform: scale(1.04);
+    }
+  }
+
+  /* ---- Section heading (bible §6.6) ---- */
+  .section-head--center {
+    text-align: center;
+  }
+
+  .section-head--center .eyebrow {
+    margin-inline: auto;
+  }
+
+  .section-head__lede {
+    max-width: 45ch;
+  }
+
+  .section-head--center .section-head__lede {
+    margin-inline: auto;
+  }
+
+  /* ---- Media placeholder (no real photos yet — bible §9, task §6) ---- */
+  .media-ph {
+    position: relative;
+    overflow: hidden;
+    background: var(--surface-raised);
+    border: 1px solid rgba(254, 220, 209, 0.08);
+    border-radius: var(--radius-media);
+    isolation: isolate;
+  }
+
+  /* per-image grain, blend overlay @ 6% (bible §6.3) */
+  .media-ph::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.06;
+    mix-blend-mode: overlay;
+    background-image: var(--grain);
+  }
+
+  .media-ph--fullbleed {
+    border-radius: 0;
+    border: none;
+    background: linear-gradient(
+      180deg,
+      #1d322b 0%,
+      color-mix(in srgb, #1d322b 90%, rgb(7 14 11)) 62%,
+      color-mix(in srgb, #1d322b 82%, rgb(7 14 11)) 100%
+    );
+  }
+
+  /* duotone treatment — green + cream, two-color print (art-direction §2) */
+  .media-ph--duotone {
+    border-radius: 0;
+    border: none;
+    background: linear-gradient(
+      125deg,
+      #1d322b 10%,
+      color-mix(in srgb, #1d322b 70%, #fedcd1 30%) 58%,
+      color-mix(in srgb, #1d322b 52%, #fedcd1 48%) 100%
+    );
+  }
+
+  .media-ph__label {
+    position: absolute;
+    inset: auto 50% auto 50%;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    z-index: 2;
+    width: 100%;
+    padding: 1.5rem 1.25rem;
+    text-align: center;
+    font-family: var(--font-body);
+    font-size: var(--text-caption);
+    font-style: italic;
+    line-height: 1.5;
+    color: var(--ink-soft);
+  }
+
+  .media-ph--fullbleed .media-ph__label {
+    top: auto;
+    bottom: 1.25rem;
+    left: auto;
+    right: 1.5rem;
+    transform: none;
+    width: auto;
+    max-width: 22rem;
+    text-align: right;
+    color: var(--ink-muted);
+  }
+
+  /* ---- Product card (bible §6.3) — media max 380px, never full-bleed ---- */
+  .product-card__media {
+    max-width: 380px;
+    margin-inline: auto;
+  }
+
+  .product-card__body {
+    padding: 1.5rem clamp(1.25rem, 3vw, 2rem) clamp(1.5rem, 3vw, 2rem);
+  }
+
+  /* ---- Carta row (bible §6.4) ---- */
+  .carta-list {
+    border-top: 1px solid rgba(254, 220, 209, 0.14);
+  }
+
+  .carta-row {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto auto;
+    align-items: center;
+    gap: clamp(0.75rem, 2.5vw, 1.5rem);
+    min-height: 44px;
+    padding: 0.875rem 0.5rem;
+    border-top: 1px solid rgba(254, 220, 209, 0.14);
+    color: var(--cream);
+    transition: background-color var(--dur-fast) var(--ease-sober);
+  }
+
+  .carta-list li:first-child .carta-row {
+    border-top: none;
+  }
+
+  .carta-row:hover {
+    background: var(--surface-tint);
+  }
+
+  .carta-row__dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    transition: transform var(--dur-fast) var(--ease-sober);
+  }
+
+  .carta-row:hover .carta-row__dot {
+    transform: scale(1.15);
+  }
+
+  .carta-row__arrow {
+    color: var(--ink-soft);
+    font-size: 1rem;
+    line-height: 1;
+    transform: translateX(0);
+    transition: transform var(--dur-fast) var(--ease-sober);
+  }
+
+  .carta-row:hover .carta-row__arrow {
+    transform: translateX(4px);
+  }
+
+  /* ---- Marquee band "¡Vuelan!" (bible §6.5) — one per page, CSS-driven ---- */
+  .marquee {
+    overflow: hidden;
+  }
+
+  .marquee__track {
+    display: flex;
+    width: max-content;
+    animation: marquee-scroll var(--dur-marquee) linear infinite;
+  }
+
+  .marquee__group {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+  }
+
+  .marquee__text {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    padding: 1.4rem 0;
+    text-transform: uppercase;
+    color: var(--green-disimonte);
+  }
+
+  @keyframes marquee-scroll {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  /* ---- How-to-order steps (art-direction §7) ---- */
+  .step-row {
+    position: relative;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: clamp(1.25rem, 4vw, 2.5rem);
+    align-items: baseline;
+    padding: 2rem 0;
+  }
+
+  .step-row::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: rgba(254, 220, 209, 0.14);
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 600ms var(--ease-sober);
+    transition-delay: calc(var(--i, 0) * 120ms);
+  }
+
+  .step-row.is-revealed::before {
+    transform: scaleX(1);
+  }
+
+  .step-num {
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 8vw, 5rem);
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--cream);
+  }
+
+  /* ---- Sober reveals (bible §8.1) — visible by default, hidden by JS ---- */
+  [data-sober-reveal] {
+    transition:
+      opacity var(--dur-sober) var(--ease-sober),
+      transform var(--dur-sober) var(--ease-sober);
+    transition-delay: calc(var(--i, 0) * 100ms);
+  }
+
+  [data-sober-reveal].is-revealed {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* ---- Sticky nav island (bible §6.10) — sober motion only ---- */
+  .nav-island {
+    position: fixed;
+    top: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 50;
+    width: min(100% - 2rem, 74rem);
+    border-radius: var(--radius-pill);
+    background: rgba(29, 50, 43, 0.72);
+    border: 1px solid rgba(254, 220, 209, 0.14);
+    -webkit-backdrop-filter: blur(16px) saturate(1.2);
+    backdrop-filter: blur(16px) saturate(1.2);
+    transition:
+      background-color var(--dur-sober) var(--ease-sober),
+      box-shadow var(--dur-sober) var(--ease-sober);
+  }
+
+  .nav-island.is-scrolled {
+    background: rgba(29, 50, 43, 0.88);
+    box-shadow: var(--shadow-lift);
+  }
+
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.5rem 0.625rem 0.5rem 1.5rem;
+    transition: padding var(--dur-sober) var(--ease-sober);
+  }
+
+  .nav-island.is-scrolled .nav-inner {
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+  }
+
+  .nav-link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 0.875rem;
+    position: relative;
+    font-size: var(--text-body);
+    font-weight: 500;
+    color: var(--ink-soft);
+    transition: color var(--dur-fast) var(--ease-sober);
+  }
+
+  .nav-link:hover {
+    color: var(--cream);
+  }
+
+  .nav-link::after {
+    content: "";
+    position: absolute;
+    left: 0.875rem;
+    right: 0.875rem;
+    bottom: 6px;
+    height: 1px;
+    background: transparent;
+    transition: background-color var(--dur-fast) var(--ease-sober);
+  }
+
+  .nav-link.is-active {
+    color: var(--cream);
+  }
+
+  .nav-link.is-active::after {
+    background: rgba(254, 220, 209, 0.26);
+  }
+
+  .nav-link.is-active::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 2px;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--cream);
+    transform: translateX(-50%);
+  }
+
+  /* Hamburger (2 lines → X), mobile only */
+  .menu-toggle {
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 6px;
+    width: 44px;
+    height: 44px;
+    padding: 0 12px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+  }
+
+  .menu-toggle__line {
+    display: block;
+    height: 1.5px;
+    width: 20px;
+    background: var(--cream);
+    transition:
+      transform var(--dur-fast) var(--ease-sober),
+      opacity var(--dur-micro) var(--ease-sober);
+  }
+
+  .menu-toggle.is-open .menu-toggle__line:first-child {
+    transform: translateY(3.5px) rotate(45deg);
+  }
+
+  .menu-toggle.is-open .menu-toggle__line:last-child {
+    transform: translateY(-4px) rotate(-45deg);
+  }
+
+  /* Fullscreen mobile menu (sober): fixed element, blur allowed */
+  .menu-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    background: rgba(29, 50, 43, 0.92);
+    -webkit-backdrop-filter: blur(24px);
+    backdrop-filter: blur(24px);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition:
+      opacity var(--dur-sober) var(--ease-sober),
+      visibility 0s linear var(--dur-sober);
+  }
+
+  .menu-overlay.is-open {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transition:
+      opacity var(--dur-sober) var(--ease-sober),
+      visibility 0s linear 0s;
+  }
+
+  .menu-overlay__link {
+    display: block;
+    padding: 0.5rem 1rem;
+    font-family: var(--font-display);
+    font-size: clamp(1.75rem, 6vw, 2.5rem);
+    font-weight: 500;
+    color: var(--cream);
+    opacity: 0;
+    transform: translateY(12px);
+    transition:
+      opacity var(--dur-sober) var(--ease-sober),
+      transform var(--dur-sober) var(--ease-sober);
+    transition-delay: calc(var(--i, 0) * 100ms);
+  }
+
+  .menu-overlay.is-open .menu-overlay__link {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ============================================================
+   Reduced-motion global (bible §8.1, §10)
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
+  }
+
+  /* marquee collapses to a static full-width strip (bible §6.5) */
+  .marquee {
+    overflow: visible;
+  }
+
+  .marquee__track {
+    width: auto;
+    flex-wrap: wrap;
+    animation: none;
+  }
+
+  .marquee__group + .marquee__group {
+    display: none;
+  }
+
+  .badge--pulse {
+    animation: none;
+  }
+}

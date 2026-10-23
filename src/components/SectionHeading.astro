@@ -1,0 +1,27 @@
+---
+interface Props {
+  eyebrow: string;
+  title: string;
+  lede?: string;
+  align?: "left" | "center";
+  reveal?: "sober" | "cine" | "none";
+  cineDelay?: number;
+}
+
+const { eyebrow, title, lede, align = "left", reveal = "none", cineDelay = 0 } = Astro.props;
+
+const revealAttrs =
+  reveal === "sober"
+    ? { "data-sober-reveal": "" }
+    : reveal === "cine"
+      ? { "data-cine-reveal": "", "data-cine-delay": String(cineDelay) }
+      : {};
+---
+
+<div class:list={["section-head", align === "center" && "section-head--center"]} {...revealAttrs}>
+  <p class="eyebrow">{eyebrow}</p>
+  <h2 class="mt-5 font-display text-h2 text-cream">{title}</h2>
+  {lede && (
+    <p class="section-head__lede mt-5 font-body text-lede text-ink-soft">{lede}</p>
+  )}
+</div>

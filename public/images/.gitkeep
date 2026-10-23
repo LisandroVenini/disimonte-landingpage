@@ -1,0 +1,4 @@
+# Carpeta reservada para las fotos reales del sitio (bible §9, Imagery Rules).
+# - Cartas de producto: fotos reales 4/5 (max 380px), grade tonal verde/crema.
+# - Atmosfera (hero, ritual, edición limitada): imagenes AI 16:9/16:10.
+# Cuando las fotos existan, reemplazar los MediaPlaceholder de los componentes.

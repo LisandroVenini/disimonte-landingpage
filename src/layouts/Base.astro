@@ -1,0 +1,50 @@
+---
+import "../styles/global.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title, description } = Astro.props;
+---
+
+<!doctype html>
+<html lang="es-AR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title ?? "Di Simonte · Pastas artesanales por encargo"}</title>
+    <meta
+      name="description"
+      content={
+        description ??
+        "Pastas artesanales por encargo y empanadas que vuelan. Hechas por la familia Di Simonte, para tu mesa."
+      }
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Playfair+Display:wght@500;600&display=swap"
+      rel="stylesheet"
+    />
+    <meta name="generator" content={Astro.generator} />
+  </head>
+  <body class="bg-green text-cream font-body antialiased">
+    <a class="skip-link" href="#contenido">Saltar al contenido</a>
+    <!-- Sentinel: IntersectionObserver hook for the nav shrink at 40px -->
+    <div
+      data-nav-sentinel
+      aria-hidden="true"
+      class="pointer-events-none absolute left-0 top-0 h-10 w-px"
+    ></div>
+    <slot />
+
+    <script>
+      import "../scripts/cinematic";
+      import "../scripts/sober";
+      import "../scripts/menu";
+    </script>
+  </body>
+</html>

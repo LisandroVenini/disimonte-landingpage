@@ -1,0 +1,65 @@
+---
+import { INSTAGRAM_HANDLE, INSTAGRAM_URL, waHref } from "../config";
+import BtnPrimary from "./BtnPrimary.astro";
+import BtnGhost from "./BtnGhost.astro";
+
+const ORDER_MESSAGE = "¡Hola Di Simonte! Quiero hacer un pedido.";
+---
+
+<footer class="relative py-section" data-footer>
+  <div
+    class="pointer-events-none absolute inset-0"
+    aria-hidden="true"
+    style="background: linear-gradient(180deg, transparent 0%, rgb(7 14 11 / 0.35) 100%);"
+  ></div>
+
+  <div class="container-shell relative">
+    <div class="mx-auto max-w-2xl text-center">
+      <p class="font-display text-wordmark font-semibold text-cream" data-sober-reveal>
+        Di Simonte
+      </p>
+      <h2
+        class="mt-8 font-display text-h2 text-cream"
+        data-sober-reveal
+        style="--i:1"
+      >
+        Empanada Lovers
+      </h2>
+      <p
+        class="mx-auto mt-6 max-w-[45ch] font-body text-lede text-ink-soft"
+        data-sober-reveal
+        style="--i:2"
+      >
+        Gracias por confiar una vez más. La mesa es de todos.
+      </p>
+      <p
+        class="mt-8 font-body text-caption italic text-ink-muted"
+        data-sober-reveal
+        style="--i:3"
+      >
+        Hecho con dedicación por Milagros y Lisandro.
+      </p>
+
+      <div
+        class="mt-10 flex flex-wrap items-center justify-center gap-4"
+        data-sober-reveal
+        style="--i:4"
+      >
+        <BtnPrimary href={waHref(ORDER_MESSAGE)} label="Pedir por WhatsApp" />
+        <BtnGhost
+          href={INSTAGRAM_URL}
+          label={`Instagram ${INSTAGRAM_HANDLE}`}
+          icon="instagram"
+        />
+      </div>
+
+      <p
+        class="mt-12 font-body text-caption uppercase tracking-[0.22em] text-ink-muted"
+        data-sober-reveal
+        style="--i:5"
+      >
+        Sin stock, con dedicación.
+      </p>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,35 @@
+---
+import Glyph from "./Glyph.astro";
+
+interface Props {
+  href: string;
+  label: string;
+  icon?: "whatsapp" | "instagram" | "none";
+  compact?: boolean;
+  banner?: boolean;
+  className?: string;
+}
+
+const { href, label, icon = "whatsapp", compact = false, banner = false, className = "" } = Astro.props;
+const isExternal = href.startsWith("http");
+---
+
+<a
+  class:list={[
+    "btn",
+    "btn-primary",
+    "on-cream",
+    compact && "btn-compact",
+    banner && "btn-banner",
+    className,
+  ]}
+  href={href}
+  {...(isExternal ? { target: "_blank", rel: "noopener" } : {})}
+>
+  <span>{label}</span>
+  {icon !== "none" && (
+    <span class="btn__icon" aria-hidden="true">
+      <Glyph icon={icon} size={icon === "whatsapp" ? 16 : 17} />
+    </span>
+  )}
+</a>

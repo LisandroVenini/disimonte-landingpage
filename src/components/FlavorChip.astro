@@ -1,0 +1,19 @@
+---
+import { FLAVOR_HEX, type FlavorKey } from "../data/products";
+
+interface Props {
+  flavor: FlavorKey | null;
+  label: string;
+  className?: string;
+}
+
+const { flavor, label, className = "" } = Astro.props;
+const hex = flavor ? FLAVOR_HEX[flavor] : null;
+---
+
+<span class:list={["chip", !hex && "chip--bare", className]}>
+  {hex && (
+    <span class="chip__dot" style={{ backgroundColor: hex }} aria-hidden="true"></span>
+  )}
+  <span class="chip__label">{label}</span>
+</span>
