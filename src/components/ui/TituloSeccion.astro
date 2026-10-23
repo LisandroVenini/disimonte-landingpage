@@ -1,0 +1,16 @@
+---
+/** Título de sección (h2) con bajada opcional. */
+interface Props {
+  id: string;
+  titulo: string;
+  bajada?: string;
+  class?: string;
+}
+
+const { id, titulo, bajada, class: clase } = Astro.props;
+---
+
+<header class:list={["flex flex-col gap-5", clase]}>
+  <h2 id={id} class="titulo-seccion">{titulo}</h2>
+  {bajada && <p class="bajada opacity-90">{bajada}</p>}
+</header>

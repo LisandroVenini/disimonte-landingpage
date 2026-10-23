@@ -1,0 +1,52 @@
+---
+/**
+ * Botón o link con forma de botón. Con `mensaje`, abre WhatsApp con ese
+ * texto prellenado en otra pestaña y lo avisa a lectores de pantalla.
+ */
+import { waLink } from "../../lib/whatsapp";
+import IconoWhatsApp from "./IconoWhatsApp.astro";
+
+interface Props {
+  href?: string;
+  /** Mensaje prellenado de WhatsApp; reemplaza a `href`. */
+  mensaje?: string;
+  /** Sección desde la que se hace clic, para medir al publicar. */
+  seccion?: string;
+  variante?: "crema" | "verde" | "sabor" | "contorno";
+  chico?: boolean;
+  icono?: boolean;
+  /** Texto extra solo para lectores de pantalla (p. ej. el sabor). */
+  detalle?: string;
+  class?: string;
+  [atributo: string]: unknown;
+}
+
+const {
+  href,
+  mensaje,
+  seccion,
+  variante = "crema",
+  chico = false,
+  icono = mensaje !== undefined,
+  detalle,
+  class: clase,
+  ...resto
+} = Astro.props;
+
+const esWhatsApp = mensaje !== undefined;
+const destino = esWhatsApp ? waLink(mensaje) : href;
+---
+
+<a
+  href={destino}
+  class:list={["boton", `boton--${variante}`, { "boton--chico": chico }, clase]}
+  target={esWhatsApp ? "_blank" : undefined}
+  rel={esWhatsApp ? "noopener" : undefined}
+  data-wa={esWhatsApp ? seccion ?? "" : undefined}
+  {...resto}
+>
+  {icono && <IconoWhatsApp />}
+  <span><slot /></span>
+  {detalle && <span class="sr-only">: {detalle}</span>}
+  {esWhatsApp && <span class="sr-only"> (abre WhatsApp en otra pestaña)</span>}
+</a>

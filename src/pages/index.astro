@@ -1,28 +1,13 @@
 ---
 import Base from "../layouts/Base.astro";
-import Nav from "../components/Nav.astro";
-import Hero from "../components/Hero.astro";
-import Ritual from "../components/Ritual.astro";
-import Weekend from "../components/Weekend.astro";
-import Week from "../components/Week.astro";
-import Letter from "../components/Letter.astro";
-import Limited from "../components/Limited.astro";
-import HowToOrder from "../components/HowToOrder.astro";
-import Footer from "../components/Footer.astro";
-
-const ORDER_MESSAGE = "¡Hola Di Simonte! Quiero hacer un pedido.";
+import Boton from "../components/ui/Boton.astro";
+import { mensajeGeneral } from "../data/site";
 ---
 
 <Base>
-  <Nav orderMessage={ORDER_MESSAGE} />
-  <main id="contenido">
-    <Hero />
-    <Ritual />
-    <Weekend />
-    <Week />
-    <Letter />
-    <Limited />
-    <HowToOrder />
+  <main id="contenido" class="contenedor seccion flex flex-col items-start gap-6">
+    <h1 class="titulo-inicio">Di Simonte</h1>
+    <p class="bajada">Prueba de la base.</p>
+    <Boton mensaje={mensajeGeneral} seccion="prueba">Pedir por WhatsApp</Boton>
   </main>
-  <Footer />
 </Base>
