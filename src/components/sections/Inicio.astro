@@ -18,6 +18,7 @@ import fotoInicio from "../../assets/fotos/inicio.png";
       fetchpriority="high"
       class="h-full w-full object-cover object-[72%_center] md:object-center"
     />
+    <div class="inicio__cortina absolute inset-0" aria-hidden="true"></div>
   </div>
   <div class="inicio__velo absolute inset-0 -z-10" aria-hidden="true"></div>
 
@@ -73,8 +74,16 @@ import fotoInicio from "../../assets/fotos/inicio.png";
   }
 
   /* Entrada al cargar: solo CSS, una vez. 60 ms entre piezas, ~900 ms en total */
+  /* La foto se pinta desde el primer cuadro (cuenta para el LCP) y una
+     cortina verde se encoge hacia arriba: se descubre de abajo hacia arriba. */
+  .inicio__cortina {
+    background: var(--color-verde);
+    transform-origin: top;
+    transform: scaleY(0);
+  }
+
   @media (prefers-reduced-motion: no-preference) {
-    .inicio__foto {
+    .inicio__cortina {
       animation: descubrir 900ms var(--ease-out-fuerte) both;
     }
 
@@ -92,10 +101,10 @@ import fotoInicio from "../../assets/fotos/inicio.png";
 
   @keyframes descubrir {
     from {
-      clip-path: inset(100% 0 0 0);
+      transform: scaleY(1);
     }
     to {
-      clip-path: inset(0 0 0 0);
+      transform: scaleY(0);
     }
   }
 

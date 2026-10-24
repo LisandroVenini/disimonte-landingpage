@@ -26,5 +26,8 @@ import { paraPicar } from "../../data/productos";
 </section>
 
 <script>
-  import "../../scripts/focaccia";
+  import { cargarCerca, sinMovimiento } from "../../lib/cargarCerca";
+
+  const elemento = document.querySelector("[data-focaccia]");
+  if (elemento && !sinMovimiento()) cargarCerca(elemento, () => import("../../scripts/focaccia"));
 </script>
