@@ -229,24 +229,25 @@
 
 /* ---------- Fotos que se descubren ----------
    El estado oculto solo lo agrega intro.ts, así ninguna foto queda
-   escondida si falla el JavaScript. */
+   escondida si falla el JavaScript. El recorte va en la imagen y no en el
+   marco, porque el IntersectionObserver mide el marco. */
 
-.revelar-espera {
+.revelar-espera img {
   clip-path: inset(100% 0 0 0);
 }
 
-.revelar-espera.revelado {
+.revelar-espera.revelado img {
   clip-path: inset(0 0 0 0);
   transition: clip-path 700ms var(--ease-out-fuerte);
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .revelar-espera {
+  .revelar-espera img {
     clip-path: none;
     opacity: 0;
   }
 
-  .revelar-espera.revelado {
+  .revelar-espera.revelado img {
     opacity: 1;
     transition: opacity 500ms ease;
   }

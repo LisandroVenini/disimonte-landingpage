@@ -18,18 +18,22 @@ if (menu && abrir) {
   });
 }
 
-/* ---------- Barra fija: aparece al dejar el inicio, se oculta en el cierre ---------- */
+/* ---------- Barra fija: aparece al dejar el inicio, se oculta en el cierre ----------
+   También se oculta mientras los sorrentinos están fijos: cada sabor tiene
+   su botón y la barra taparía los puntos en pantallas bajas. */
 
 const barra = document.querySelector<HTMLElement>("[data-barra]");
 const ctaInicio = document.querySelector<HTMLElement>("[data-inicio-cta]");
 const cierre = document.querySelector<HTMLElement>("#cierre");
+const escena = document.querySelector<HTMLElement>("[data-escena]");
 
 if (barra && ctaInicio && cierre && "IntersectionObserver" in window) {
   let pasoElInicio = false;
   let enElCierre = false;
+  let enLaEscena = false;
 
   const actualizar = () => {
-    const visible = pasoElInicio && !enElCierre;
+    const visible = pasoElInicio && !enElCierre && !enLaEscena;
     barra.classList.toggle("es-visible", visible);
     barra.inert = !visible;
   };
@@ -43,6 +47,16 @@ if (barra && ctaInicio && cierre && "IntersectionObserver" in window) {
     enElCierre = entrada.isIntersecting;
     actualizar();
   }).observe(cierre);
+
+  if (escena) {
+    new IntersectionObserver(
+      ([entrada]) => {
+        enLaEscena = escena.classList.contains("es-fija") && entrada.intersectionRatio >= 0.6;
+        actualizar();
+      },
+      { threshold: [0, 0.6, 1] },
+    ).observe(escena);
+  }
 }
 
 export {};
