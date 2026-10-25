@@ -1,6 +1,7 @@
 /**
  * Propuestas de "Armá tu pedido". Fuente: web/textos-web.md.
  * BORRADOR: nombres de ejemplo; las cantidades se definen antes de publicar.
+ * Oculta hasta que se definan los combos: no tocar sus textos ni mensajes.
  */
 import type { ImageMetadata } from "astro";
 
@@ -19,6 +20,8 @@ export interface Propuesta {
 }
 
 export const armaTuPedido = {
+  /** Para reactivar la sección: pasar a true y volver a sumar el ítem en `nav` (site.ts). */
+  visible: false,
   titulo: "Armá tu pedido.",
   bajada: "Tres formas de pedir, según el plan que tengas.",
   boton: "Quiero este",

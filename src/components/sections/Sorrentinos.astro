@@ -6,8 +6,8 @@
  */
 import { Picture } from "astro:assets";
 import Boton from "../ui/Boton.astro";
+import Coccion from "../ui/Coccion.astro";
 import { lasagna, pastas, sorrentinos } from "../../data/productos";
-import { marca } from "../../data/site";
 
 const colorTexto = { crema: "var(--color-crema)", tinta: "var(--color-tinta)" };
 ---
@@ -126,15 +126,11 @@ const colorTexto = { crema: "var(--color-crema)", tinta: "var(--color-tinta)" };
         />
       </div>
       <div class="flex flex-col items-start gap-5">
-        <p class="text-lg opacity-80">Y para cerrar el finde</p>
+        <p class="text-lg opacity-80">{lasagna.antetitulo}</p>
         <h3 class="titulo-seccion">{lasagna.nombre}</h3>
         <p class="texto">{lasagna.descripcion}</p>
-        <div class="mt-3 flex flex-wrap gap-3">
-          <Boton mensaje={lasagna.mensaje} seccion="lasagna">{lasagna.boton}</Boton>
-          <Boton href={marca.instagram.url} variante="contorno" target="_blank" rel="noopener">
-            Ver próximas tandas
-          </Boton>
-        </div>
+        <Boton mensaje={lasagna.mensaje} seccion="lasagna" class="mt-3">{lasagna.boton}</Boton>
+        <Coccion titulo={pastas.coccionTitulo} items={pastas.coccion} class="mt-4" />
       </div>
     </div>
   </div>

@@ -1,15 +1,25 @@
 ---
 import { Picture } from "astro:assets";
 import Boton from "../ui/Boton.astro";
+import Pendiente from "../ui/Pendiente.astro";
 import TituloSeccion from "../ui/TituloSeccion.astro";
-import { paraPicar } from "../../data/productos";
+import { paraPicar, picaccia } from "../../data/productos";
 ---
 
 <section id="para-picar" class="fondo-crema seccion" aria-labelledby="para-picar-titulo">
   <div class="contenedor grid items-center gap-12 md:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] lg:gap-20">
     <div class="flex flex-col items-start gap-8 md:order-1">
       <TituloSeccion id="para-picar-titulo" titulo={paraPicar.titulo} bajada={paraPicar.bajada} />
+      <p class="texto opacity-90">{paraPicar.coccion}</p>
       <Boton mensaje={paraPicar.mensaje} seccion="para-picar" variante="verde">{paraPicar.boton}</Boton>
+
+      <div class="flex w-full max-w-[36rem] flex-col items-start gap-4 rounded-[1.5rem] border-[1.5px] border-verde/20 p-6">
+        <span class="rounded-full bg-verde px-3 py-1 text-base font-semibold text-crema">{picaccia.etiqueta}</span>
+        <h3 class="titulo-tarjeta">{picaccia.nombre}</h3>
+        <p class="leading-snug">{picaccia.texto}</p>
+        <Pendiente>{picaccia.pendiente}</Pendiente>
+        <Boton mensaje={picaccia.mensaje} seccion="picaccia" variante="contorno">{picaccia.boton}</Boton>
+      </div>
     </div>
     <div class="overflow-hidden rounded-[1.75rem] md:order-2" data-focaccia>
       <Picture

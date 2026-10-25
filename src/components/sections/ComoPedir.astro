@@ -27,16 +27,16 @@ import { comoPedir } from "../../data/site";
     <div class="mt-10 grid gap-8 md:grid-cols-[minmax(0,1fr)_auto] md:items-end lg:mt-14">
       <dl class="grid max-w-[46rem] gap-5">
         <div>
-          <dt class="font-semibold">Pastas</dt>
-          <dd>{comoPedir.nota}</dd>
-        </div>
-        <div>
           <dt class="font-semibold">Retiro o envío</dt>
           <dd>{comoPedir.entrega}</dd>
         </div>
         <div>
           <dt class="font-semibold">Formas de pago</dt>
           <dd>{comoPedir.pago}</dd>
+        </div>
+        <div>
+          <dt class="font-semibold">Pedido mínimo</dt>
+          <dd>{comoPedir.minimo}</dd>
         </div>
       </dl>
       <div>

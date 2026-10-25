@@ -1,0 +1,42 @@
+---
+/** Ventas por mayor: para kioscos y comercios que quieran vender Di Simonte. */
+import { Picture } from "astro:assets";
+import Boton from "../ui/Boton.astro";
+import Pendiente from "../ui/Pendiente.astro";
+import TituloSeccion from "../ui/TituloSeccion.astro";
+import { comercios } from "../../data/site";
+---
+
+<section id="para-comercios" class="fondo-verde seccion" aria-labelledby="para-comercios-titulo">
+  <div class="contenedor grid items-center gap-12 md:grid-cols-[minmax(0,6fr)_minmax(0,5fr)] lg:gap-20">
+    <div class="flex flex-col items-start gap-8">
+      <div class="flex flex-col gap-3">
+        <p class="text-lg opacity-80">{comercios.etiqueta}</p>
+        <TituloSeccion id="para-comercios-titulo" titulo={comercios.titulo} bajada={comercios.bajada} />
+      </div>
+      <ul class="flex flex-col gap-3">
+        {
+          comercios.puntos.map((punto) => (
+            <li class="flex gap-3">
+              <span class="mt-[0.7em] size-2 flex-none rounded-full bg-crema" aria-hidden="true" />
+              {punto}
+            </li>
+          ))
+        }
+      </ul>
+      {comercios.pendientes.map((pendiente) => <Pendiente>{pendiente}</Pendiente>)}
+      <Boton mensaje={comercios.mensaje} seccion="comercios">{comercios.boton}</Boton>
+    </div>
+    <div class="overflow-hidden rounded-[1.75rem]" data-revelar>
+      <Picture
+        src={comercios.foto}
+        alt={comercios.alt}
+        formats={["avif", "webp"]}
+        fallbackFormat="jpg"
+        widths={[400, 640, 928]}
+        sizes="(min-width: 768px) 42vw, 100vw"
+        class="aspect-[4/5] h-full w-full object-cover"
+      />
+    </div>
+  </div>
+</section>

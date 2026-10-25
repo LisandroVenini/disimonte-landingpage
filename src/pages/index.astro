@@ -8,9 +8,11 @@ import Sorrentinos from "../components/sections/Sorrentinos.astro";
 import ParaLaMano from "../components/sections/ParaLaMano.astro";
 import ParaPicar from "../components/sections/ParaPicar.astro";
 import ArmaTuPedido from "../components/sections/ArmaTuPedido.astro";
+import Comercios from "../components/sections/Comercios.astro";
 import ComoPedir from "../components/sections/ComoPedir.astro";
 import Preguntas from "../components/sections/Preguntas.astro";
 import Cierre from "../components/sections/Cierre.astro";
+import { armaTuPedido } from "../data/propuestas";
 ---
 
 <Base>
@@ -21,7 +23,8 @@ import Cierre from "../components/sections/Cierre.astro";
     <Sorrentinos />
     <ParaLaMano />
     <ParaPicar />
-    <ArmaTuPedido />
+    {armaTuPedido.visible && <ArmaTuPedido />}
+    <Comercios />
     <ComoPedir />
     <Preguntas />
   </main>

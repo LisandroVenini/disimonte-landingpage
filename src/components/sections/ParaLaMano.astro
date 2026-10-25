@@ -5,6 +5,7 @@
  */
 import { Picture } from "astro:assets";
 import Boton from "../ui/Boton.astro";
+import Coccion from "../ui/Coccion.astro";
 import TituloSeccion from "../ui/TituloSeccion.astro";
 import { paraLaMano } from "../../data/productos";
 ---
@@ -64,6 +65,12 @@ import { paraLaMano } from "../../data/productos";
             </div>
           ))
         }
+        <Coccion
+          titulo={paraLaMano.coccionTitulo}
+          items={paraLaMano.coccion}
+          nota={paraLaMano.conservacion}
+          class="mt-2"
+        />
         <div class="mt-4">
           <Boton mensaje={paraLaMano.mensaje} seccion="para-la-mano">{paraLaMano.boton}</Boton>
         </div>

@@ -1,0 +1,24 @@
+---
+/**
+ * Marca un dato que el equipo todavía no definió. Solo se ve con
+ * `npm run dev`: en el build publicado no se renderiza nada.
+ */
+interface Props {
+  class?: string;
+}
+
+const { class: clase } = Astro.props;
+---
+
+{
+  import.meta.env.DEV && (
+    <p
+      class:list={[
+        "rounded-xl border-2 border-dashed border-current px-4 py-3 text-base leading-snug opacity-80",
+        clase,
+      ]}
+    >
+      <strong>PENDIENTE:</strong> <slot />
+    </p>
+  )
+}

@@ -1,5 +1,6 @@
 /**
- * Productos de la landing, sin precios. Fuente: web/textos-web.md.
+ * Productos de la landing, sin precios. Fuente: "Cambios en página DiSimonte.md".
+ * Todo es congelado y con stock permanente, salvo la picaccia (por pedido).
  * Cambiar un sabor o una descripción es editar este archivo.
  */
 import type { ImageMetadata } from "astro";
@@ -29,14 +30,33 @@ export interface Sorrentino {
   alt: string;
 }
 
+export interface Coccion {
+  producto: string;
+  indicacion: string;
+}
+
 export const pastas = {
-  titulo: "Los domingos se heredan.",
+  // BORRADOR: título y bajada.
+  titulo: "Pastas con color de verdad.",
   bajada:
-    "Pastas por encargo, un fin de semana sí y otro no, con cupos limitados. Seguinos en Instagram para saber cuándo abren los pedidos.",
-  nota: "Cada masa tiene su color, y todos salen de ingredientes naturales. Sin colorantes.",
+    "Sorrentinos y lasagna congelados, listos para cocinar cuando tengas ganas de pasta. Pedilos por WhatsApp.",
+  nota: "Cada masa tiene su color y sale de ingredientes naturales: sin colorantes, sin conservantes.",
   boton: "Pedir este sabor",
+  // BORRADOR
   mensaje: (sabor: string) =>
-    `¡Hola Di Simonte! Quiero pedir sorrentinos de ${sabor.toLowerCase()}. ¿Cuándo es la próxima tanda?`,
+    `¡Hola Di Simonte! Quiero pedir sorrentinos de ${sabor.toLowerCase()}. ¿Tienen disponibles?`,
+  coccionTitulo: "Cómo se cocinan",
+  coccion: [
+    {
+      producto: "Sorrentinos",
+      indicacion: "Hervís agua con sal, los cocinás de 5 a 7 minutos y los retirás con espumadera.",
+    },
+    {
+      producto: "Lasagna",
+      indicacion:
+        "Sin descongelar, al horno a 180-200°, de 20 a 25 minutos, hasta que borbotee y el queso se gratine.",
+    },
+  ] satisfies Coccion[],
 };
 
 export const sorrentinos: Sorrentino[] = [
@@ -94,10 +114,13 @@ export const sorrentinos: Sorrentino[] = [
 ];
 
 export const lasagna = {
+  // BORRADOR
+  antetitulo: "Y para compartir",
   nombre: "Lasagna de la casa",
   descripcion: "Masa artesanal, bolognesa y mozzarella, con salsa bechamel y parmesano.",
   boton: "Pedir lasagna",
-  mensaje: "¡Hola Di Simonte! Quiero pedir una lasagna. ¿Cuándo es la próxima tanda?",
+  // BORRADOR
+  mensaje: "¡Hola Di Simonte! Quiero pedir una lasagna. ¿Tienen disponible?",
   foto: fotoLasagna,
   alt: "Lasagna gratinada con una porción servida en un plato",
 };
@@ -120,8 +143,16 @@ export interface GrupoMano {
 export const paraLaMano = {
   titulo: "Para comer con la mano.",
   bajada: "Empanadas, canastitas y pizza, listas en el freezer para cualquier día de la semana.",
-  boton: "Pedir para hoy",
+  // BORRADOR: "para hoy" prometía entrega en el día.
+  boton: "Pedir por WhatsApp",
   mensaje: "¡Hola Di Simonte! Quiero pedir empanadas, canastitas o pizza. ¿Qué hay disponible hoy?",
+  coccionTitulo: "Del freezer al horno",
+  // La pizza no lleva instrucciones de cocción.
+  coccion: [
+    { producto: "Empanadas", indicacion: "Directo del freezer al horno precalentado a 180°, de 20 a 25 minutos." },
+    { producto: "Canastitas", indicacion: "Directo del freezer al horno precalentado a 180°, de 20 a 25 minutos." },
+  ] satisfies Coccion[],
+  conservacion: "Se conservan hasta 2 meses en el freezer.",
   grupos: [
     {
       id: "empanadas",
@@ -165,6 +196,19 @@ export const paraPicar = {
   bajada: "Focaccias individuales, cada una con su topping. Para abrir la mesa o sumar a la picada.",
   boton: "Pedir focaccias",
   mensaje: "¡Hola Di Simonte! Quiero pedir focaccias. ¿Qué toppings hay esta semana?",
+  coccion: "Directo del freezer al horno precalentado a 180°, de 5 a 8 minutos: solo para que se caliente.",
   foto: fotoFocaccia,
-  alt: "Focaccia recién horneada con tomates, en su asadera",
+  // BORRADOR
+  alt: "Focaccia con tomates, en su asadera",
+};
+
+// BORRADOR: la única que se hace por pedido.
+export const picaccia = {
+  etiqueta: "Por pedido",
+  nombre: "Picaccia",
+  texto: "Picada y focaccia en una sola, para compartir. Se hace por pedido: escribinos con anticipación.",
+  boton: "Pedir picaccia",
+  mensaje: "¡Hola Di Simonte! Quiero pedir una picaccia. ¿Con cuánta anticipación tengo que encargarla?",
+  // PENDIENTE: no se publica hasta tener el dato.
+  pendiente: "Qué lleva, tamaño y con cuánta anticipación hay que pedirla.",
 };

@@ -22,7 +22,17 @@ import { preguntas, preguntasFrecuentes } from "../../data/faq";
               {p.pregunta}
               <span class="pregunta__icono" aria-hidden="true" />
             </summary>
-            <p class="texto pb-6 opacity-90">{p.respuesta}</p>
+            <p class="texto pb-6 opacity-90">
+              {p.respuesta}
+              {p.link && (
+                <>
+                  {" "}
+                  <a href={p.link.href} class="font-semibold underline underline-offset-4">
+                    {p.link.texto}
+                  </a>
+                </>
+              )}
+            </p>
           </details>
         ))
       }
