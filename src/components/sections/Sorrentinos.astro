@@ -7,7 +7,7 @@
 import { Picture } from "astro:assets";
 import Boton from "../ui/Boton.astro";
 import Coccion from "../ui/Coccion.astro";
-import { lasagna, pastas, sorrentinos } from "../../data/productos";
+import { coccionSorrentinos, lasagna, pastas, sorrentinos } from "../../data/productos";
 
 const colorTexto = { crema: "var(--color-crema)", tinta: "var(--color-tinta)" };
 ---
@@ -20,42 +20,50 @@ const colorTexto = { crema: "var(--color-crema)", tinta: "var(--color-tinta)" };
         <div class="paso__texto flex flex-col items-start gap-6" data-texto>
           <h2 id="pastas-titulo" class="titulo-seccion max-w-[14ch]">{pastas.titulo}</h2>
           <p class="bajada opacity-90">{pastas.bajada}</p>
-          <p class="texto opacity-80">{pastas.nota}</p>
-          <ul class="paso__sabores flex flex-wrap gap-2.5" aria-label="Los cinco sabores">
-            {
-              sorrentinos.map((s) => (
-                <li class="inline-flex items-center gap-2 rounded-full border border-crema/25 py-1 pr-3.5 pl-1.5 text-base">
-                  <span class="size-5 rounded-full" style={`background: var(${s.color})`} aria-hidden="true" />
-                  {s.nombre}
-                </li>
-              ))
-            }
-          </ul>
-          <p class="paso__pista text-base opacity-70" aria-hidden="true">Bajá para recorrer los sabores</p>
+          <p class="text-lg font-semibold">{pastas.pack}</p>
+          <Coccion titulo={coccionSorrentinos.titulo} texto={coccionSorrentinos.texto} corto={coccionSorrentinos.corto} />
+          <p class="paso__pista" aria-hidden="true">
+            {pastas.pista}
+            <svg class="paso__flecha" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 5v14M6 13l6 6 6-6" />
+            </svg>
+          </p>
         </div>
-        <div class="platos" aria-hidden="true">
+        <nav class="platos" aria-label="Ir a un sabor">
           {
             sorrentinos.map((s, i) => (
-              <div class="plato" style={`--color: var(${s.color}); --i: ${i}`}>
-                <Picture
-                  src={s.foto}
-                  alt=""
-                  formats={["avif", "webp"]}
-                  fallbackFormat="jpg"
-                  widths={[360]}
-                  sizes="15rem"
-                  class="h-full w-full object-cover"
-                />
-              </div>
+              <a
+                class="plato"
+                href={`#sorrentino-${s.id}`}
+                data-ir-sabor={i + 1}
+                style={`--color: var(${s.color})`}
+                aria-label={`Ver ${s.nombre}`}
+              >
+                <span class="plato__foto">
+                  <Picture
+                    src={s.foto}
+                    alt=""
+                    formats={["avif", "webp"]}
+                    fallbackFormat="jpg"
+                    widths={[360]}
+                    sizes="15rem"
+                    class="h-full w-full object-cover"
+                  />
+                </span>
+                <span class="etiqueta etiqueta--abajo" aria-hidden="true">
+                  {s.nombre}
+                </span>
+              </a>
             ))
           }
-        </div>
+        </nav>
       </div>
     </div>
 
     {
       sorrentinos.map((s, i) => (
         <article
+          id={`sorrentino-${s.id}`}
           class="paso"
           data-paso
           aria-labelledby={`sabor-${s.id}`}
@@ -82,15 +90,17 @@ const colorTexto = { crema: "var(--color-crema)", tinta: "var(--color-tinta)" };
                 {s.nombre}
               </h3>
               <p class="texto mt-4 max-w-[30em]">{s.descripcion}</p>
-              <Boton
-                mensaje={pastas.mensaje(s.nombre)}
-                seccion={`sorrentinos-${s.id}`}
-                variante="sabor"
-                detalle={s.nombre}
-                class="mt-7"
-              >
-                {pastas.boton}
-              </Boton>
+              <div class="mt-7 flex flex-wrap items-center gap-x-5 gap-y-2">
+                <Boton
+                  mensaje={pastas.mensaje(s.nombre)}
+                  seccion={`sorrentinos-${s.id}`}
+                  variante="sabor"
+                  detalle={s.nombre}
+                >
+                  {pastas.boton}
+                </Boton>
+                <p class="text-base font-semibold">{pastas.packFicha}</p>
+              </div>
             </div>
           </div>
         </article>
@@ -106,7 +116,9 @@ const colorTexto = { crema: "var(--color-crema)", tinta: "var(--color-tinta)" };
             data-punto={i + 1}
             style={`--punto: var(${s.color})`}
             aria-label={`Ver ${s.nombre}`}
-          />
+          >
+            <span class="etiqueta etiqueta--izquierda" aria-hidden="true">{s.nombre}</span>
+          </button>
         ))
       }
     </nav>
@@ -130,7 +142,7 @@ const colorTexto = { crema: "var(--color-crema)", tinta: "var(--color-tinta)" };
         <h3 class="titulo-seccion">{lasagna.nombre}</h3>
         <p class="texto">{lasagna.descripcion}</p>
         <Boton mensaje={lasagna.mensaje} seccion="lasagna" class="mt-3">{lasagna.boton}</Boton>
-        <Coccion titulo={pastas.coccionTitulo} items={pastas.coccion} class="mt-4" />
+        <Coccion titulo={lasagna.coccion.titulo} texto={lasagna.coccion.texto} class="mt-4" />
       </div>
     </div>
   </div>
@@ -183,8 +195,35 @@ const colorTexto = { crema: "var(--color-crema)", tinta: "var(--color-tinta)" };
     max-width: 12ch;
   }
 
+  /* Pista para la escena fija: solo tiene sentido cuando la sección queda fija */
   .paso__pista {
     display: none;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.125rem;
+    font-weight: 600;
+  }
+
+  .paso__flecha {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    /* Un empujón corto que invita a bajar; se detiene a las tres veces */
+    .paso__flecha {
+      animation: empujar 1.6s var(--ease-in-out-fuerte) 3;
+    }
+  }
+
+  @keyframes empujar {
+    0%,
+    100% {
+      transform: none;
+    }
+    50% {
+      transform: translateY(4px);
+    }
   }
 
   /* Los cinco platos de la portada, cada uno con un aro del color de su masa */
@@ -202,15 +241,48 @@ const colorTexto = { crema: "var(--color-crema)", tinta: "var(--color-tinta)" };
     }
   }
 
+  /* Cada plato es un link a su sabor */
   .plato {
     position: absolute;
     width: 42%;
     aspect-ratio: 1;
     border-radius: 50%;
+    --foco: var(--color-crema);
+    transition: transform 160ms var(--ease-out-fuerte);
+    touch-action: manipulation;
+  }
+
+  .plato__foto {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
     overflow: hidden;
     box-shadow:
       0 0 0 0.375rem var(--color),
       0 1.5rem 3rem -1rem rgb(0 0 0 / 0.55);
+    transition: box-shadow 160ms ease;
+  }
+
+  .plato:active {
+    transform: scale(0.97);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .plato:hover {
+      transform: scale(1.03);
+      z-index: 1;
+    }
+
+    .plato:hover .plato__foto {
+      box-shadow:
+        0 0 0 0.625rem var(--color),
+        0 1.5rem 3rem -1rem rgb(0 0 0 / 0.55);
+    }
+  }
+
+  .plato:focus-visible {
+    z-index: 1;
   }
 
   .plato:nth-child(1) {
@@ -301,19 +373,13 @@ const colorTexto = { crema: "var(--color-crema)", tinta: "var(--color-tinta)" };
   }
 
   .es-fija .paso__pista {
-    display: block;
+    display: flex;
   }
 
   .es-fija .paso--intro .paso__contenido {
     justify-items: start;
   }
 
-  /* En el celular los puntos ya muestran los cinco colores */
-  @media (width < 48rem) {
-    .es-fija .paso__sabores {
-      display: none;
-    }
-  }
 
   @media (width >= 48rem) {
     .es-fija .paso__contenido {
@@ -329,7 +395,7 @@ const colorTexto = { crema: "var(--color-crema)", tinta: "var(--color-tinta)" };
   /* Los sabores también dejan ver el texto sin que la foto lo empuje en celus bajos */
   @media (width < 48rem) and (height < 700px) {
     .es-fija .paso__foto {
-      width: min(60vw, 26svh);
+      width: min(56vw, 22svh);
     }
 
     .es-fija .paso__contenido {
@@ -371,7 +437,75 @@ const colorTexto = { crema: "var(--color-crema)", tinta: "var(--color-tinta)" };
     }
   }
 
+  /* Etiqueta con el nombre del sabor: aparece con el mouse o con Tab */
+  .etiqueta {
+    position: absolute;
+    z-index: 2;
+    white-space: nowrap;
+    padding: 0.25rem 0.75rem;
+    border-radius: 999px;
+    background: var(--color-verde);
+    color: var(--color-crema);
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.4;
+    pointer-events: none;
+    opacity: 0;
+    transition:
+      opacity 150ms var(--ease-out-fuerte),
+      transform 150ms var(--ease-out-fuerte);
+  }
+
+  .etiqueta--abajo {
+    left: 50%;
+    top: calc(100% + 0.75rem);
+    transform: translate(-50%, -4px);
+  }
+
+  .etiqueta--izquierda {
+    right: calc(100% + 0.5rem);
+    top: 50%;
+    transform: translate(4px, -50%);
+  }
+
+  :is(.plato, .punto):focus-visible .etiqueta--abajo {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+
+  :is(.plato, .punto):focus-visible .etiqueta--izquierda {
+    opacity: 1;
+    transform: translate(0, -50%);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    :is(.plato, .punto):hover .etiqueta--abajo {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+
+    :is(.plato, .punto):hover .etiqueta--izquierda {
+      opacity: 1;
+      transform: translate(0, -50%);
+    }
+  }
+
+  /* En el celular los puntos van en fila abajo y no tienen etiqueta visible:
+     el nombre del sabor ya está grande en pantalla. */
+  @media (width < 48rem) {
+    .punto .etiqueta {
+      display: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .etiqueta {
+      transition: opacity 150ms ease;
+    }
+  }
+
   .punto {
+    position: relative;
     display: grid;
     place-items: center;
     width: 3rem;

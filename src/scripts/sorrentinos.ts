@@ -92,9 +92,13 @@ if (escena) {
       window.scrollTo({ top: destino, behavior: comportamiento });
     };
 
-    const alTocarPunto = (e: Event) => {
-      const punto = (e.target as HTMLElement).closest<HTMLButtonElement>("[data-punto]");
-      if (punto) irA(Number(punto.dataset.punto));
+    // Los puntos y los platos de la portada llevan a su sabor. Los platos son
+    // links a cada bloque: sin la escena fija funcionan como anclas comunes.
+    const alTocar = (e: Event) => {
+      const destino = (e.target as HTMLElement).closest<HTMLElement>("[data-punto], [data-ir-sabor]");
+      if (!destino) return;
+      e.preventDefault();
+      irA(Number(destino.dataset.punto ?? destino.dataset.irSabor));
     };
 
     // Con teclado: al llegar con Tab a un botón de otro sabor, la escena va a ese sabor.
@@ -104,11 +108,11 @@ if (escena) {
       if (indice >= 0 && indice !== actual) irA(indice, "auto");
     };
 
-    nav?.addEventListener("click", alTocarPunto);
+    escena.addEventListener("click", alTocar);
     escena.addEventListener("focusin", alEnfocar);
 
     return () => {
-      nav?.removeEventListener("click", alTocarPunto);
+      escena.removeEventListener("click", alTocar);
       escena.removeEventListener("focusin", alEnfocar);
       escena.classList.remove("es-fija");
       pasos.forEach((paso) => paso.classList.remove("es-activo"));

@@ -1,28 +1,43 @@
 ---
-/** Bloque corto de cocción: una línea por producto y una nota opcional. */
+/**
+ * Tarjeta corta de cocción. Lleva una lista por producto (`items`) o un solo
+ * texto (`texto`). Con `corto`, en el celular la tarjeta se reduce a esa línea.
+ */
 import type { Coccion } from "../../data/productos";
 
 interface Props {
   titulo: string;
-  items: Coccion[];
+  items?: Coccion[];
+  texto?: string;
+  corto?: string;
   nota?: string;
   class?: string;
 }
 
-const { titulo, items, nota, class: clase } = Astro.props;
+const { titulo, items, texto, corto, nota, class: clase } = Astro.props;
 ---
 
-<div class:list={["w-full max-w-[36rem] rounded-[1.25rem] border-[1.5px] border-current/20 p-5", clase]}>
+{corto && <p class:list={["leading-snug font-semibold md:hidden", clase]}>{corto}</p>}
+<div
+  class:list={[
+    "w-full max-w-[36rem] rounded-[1.25rem] border-[1.5px] border-current/20 p-5",
+    { "hidden md:block": corto },
+    clase,
+  ]}
+>
   <p class="font-display text-xl">{titulo}</p>
-  <dl class="mt-3 flex flex-col gap-2.5">
-    {
-      items.map((item) => (
-        <div>
-          <dt class="font-semibold">{item.producto}</dt>
-          <dd class="leading-snug opacity-90">{item.indicacion}</dd>
-        </div>
-      ))
-    }
-  </dl>
+  {texto && <p class="mt-2 leading-snug opacity-90">{texto}</p>}
+  {
+    items && (
+      <dl class="mt-3 flex flex-col gap-2.5">
+        {items.map((item) => (
+          <div>
+            <dt class="font-semibold">{item.producto}</dt>
+            <dd class="leading-snug opacity-90">{item.indicacion}</dd>
+          </div>
+        ))}
+      </dl>
+    )
+  }
   {nota && <p class="mt-3 leading-snug opacity-90">{nota}</p>}
 </div>

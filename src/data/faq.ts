@@ -1,3 +1,5 @@
+import { coccionSorrentinos } from "./productos";
+
 /**
  * Preguntas frecuentes. Fuente: "Cambios en página DiSimonte.md".
  * Primero lo que más se pregunta de un congelado: stock, conservantes, cocción y duración.
@@ -25,7 +27,7 @@ export const preguntas: Pregunta[] = [
   { pregunta: "¿Tienen conservantes?", respuesta: "No. Ninguno de nuestros productos lleva conservantes." },
   {
     pregunta: "¿Cómo cocino los sorrentinos?",
-    respuesta: "Hervís agua con sal, los cocinás de 5 a 7 minutos y los retirás con espumadera.",
+    respuesta: coccionSorrentinos.texto,
   },
   {
     pregunta: "¿Cómo cocino las empanadas, canastitas, lasagna y focaccias?",

@@ -35,28 +35,25 @@ export interface Coccion {
   indicacion: string;
 }
 
+/** Cocción de sorrentinos: la usan la intro de pastas y la pregunta frecuente. */
+export const coccionSorrentinos = {
+  titulo: "Cómo se cocinan los sorrentinos",
+  texto:
+    "Hervís agua con sal, sumás los sorrentinos directo del freezer, sin descongelar, los cocinás de 8 a 10 minutos y los retirás con espumadera.",
+  /** Versión de una línea para el celular. */
+  corto: "Del freezer a la olla, de 8 a 10 minutos.",
+};
+
 export const pastas = {
-  // BORRADOR: título y bajada.
-  titulo: "Pastas con color de verdad.",
+  titulo: "Pastas congeladas con sabor a domingo.",
   bajada:
     "Sorrentinos y lasagna congelados, listos para cocinar cuando tengas ganas de pasta. Pedilos por WhatsApp.",
-  nota: "Cada masa tiene su color y sale de ingredientes naturales: sin colorantes, sin conservantes.",
+  pack: "Pack de 12 sorrentinos, de un solo sabor.",
+  pista: "Bajá para recorrer los sabores",
   boton: "Pedir este sabor",
-  // BORRADOR
+  packFicha: "Pack de 12 sorrentinos",
   mensaje: (sabor: string) =>
-    `¡Hola Di Simonte! Quiero pedir sorrentinos de ${sabor.toLowerCase()}. ¿Tienen disponibles?`,
-  coccionTitulo: "Cómo se cocinan",
-  coccion: [
-    {
-      producto: "Sorrentinos",
-      indicacion: "Hervís agua con sal, los cocinás de 5 a 7 minutos y los retirás con espumadera.",
-    },
-    {
-      producto: "Lasagna",
-      indicacion:
-        "Sin descongelar, al horno a 180-200°, de 20 a 25 minutos, hasta que borbotee y el queso se gratine.",
-    },
-  ] satisfies Coccion[],
+    `¡Hola Di Simonte! Quiero pedir un pack de 12 sorrentinos de ${sabor.toLowerCase()}. ¿Tienen disponible?`,
 };
 
 export const sorrentinos: Sorrentino[] = [
@@ -119,8 +116,11 @@ export const lasagna = {
   nombre: "Lasagna de la casa",
   descripcion: "Masa artesanal, bolognesa y mozzarella, con salsa bechamel y parmesano.",
   boton: "Pedir lasagna",
-  // BORRADOR
   mensaje: "¡Hola Di Simonte! Quiero pedir una lasagna. ¿Tienen disponible?",
+  coccion: {
+    titulo: "Cómo se cocina la lasagna",
+    texto: "Sin descongelar, al horno a 180-200°, de 20 a 25 minutos, hasta que borbotee y el queso se gratine.",
+  },
   foto: fotoLasagna,
   alt: "Lasagna gratinada con una porción servida en un plato",
 };
