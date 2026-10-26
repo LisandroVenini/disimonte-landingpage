@@ -40,15 +40,17 @@ export const inicio = {
   mensaje: mensajeGeneral,
 };
 
-// BORRADOR: la última oración del texto.
 export const historia = {
   titulo: "Todo empezó en la mesa de la abuela.",
   texto:
-    "Los domingos, sus manos llenas de harina no solo hacían pastas: armaban los recuerdos que hoy mueven este proyecto. Seguimos cocinando como en esa mesa, con tiempo, porque una receta heredada no se apura. Y ahora la dejamos lista en tu freezer para cualquier día.",
+    "Los domingos, la cocina de la abuela se llenaba de harina. Ahí aprendimos que una buena pasta lleva su tiempo. Hoy seguimos cocinando así, en familia, y la dejamos lista en tu freezer para cuando quieras.",
   personas: [
-    { nombre: "Abuela", linea: "Las manos, la tradición y el domingo." },
-    { nombre: "Milagros", linea: "Le dio color a la tradición: masas teñidas con ingredientes naturales." },
-    { nombre: "Lisandro", linea: "Le dio vida a las harinas: técnica artesanal en cada repulgue." },
+    { nombre: "Abuela", linea: "Puso las manos, la tradición y los domingos." },
+    { nombre: "Milagros", linea: "Le dio vida a la marca: hizo que Di Simonte se vea y se cuente como lo conocés." },
+    {
+      nombre: "Lisandro y Paula",
+      linea: "Le dieron vida a la cocina: buscaron cada receta hasta dar con sabores que se quedan en la memoria.",
+    },
   ],
   boton: "Ver las pastas",
 };
@@ -71,7 +73,7 @@ export const comoPedir = {
 export const cierre = {
   titulo: "Gracias por dejarnos sentar en tu mesa.",
   texto: "Cuando lo pruebes, mostranos tu plato: etiquetanos en Instagram @disimonte.",
-  firma: "Hecho con dedicación por Milagros y Lisandro.",
+  firma: "Hecho con dedicación por Milagros, Lisandro y Paula.",
   botonWhatsApp: "Pedir por WhatsApp",
   botonInstagram: "Seguinos en Instagram",
   mensaje: mensajeGeneral,
